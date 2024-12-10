@@ -4,13 +4,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import "./styles/Navigation.css";
 import React, { useEffect, useState } from "react";
-import { getHelloMessage } from "./services/api";
+import { getRecette, Recette } from './services/recette';
 
 function Navigation() {
-  const [message, setMessage] = useState("");
+  const [recette, setRecette] = useState<Recette | null>(null);
 
   useEffect(() => {
-    getHelloMessage().then(setMessage);
+    getRecette("ac020506-d23d-4218-b3ae-f9858b8833f7").then(setRecette);
   }, []);
   
   return (
@@ -35,8 +35,9 @@ function Navigation() {
             </NavDropdown>
           </Nav>
           <Nav>
+            { <Navbar.Text>  {recette ? recette.nom : 'Loading...'}</Navbar.Text> }
           <Navbar.Text>
-            État {message ? <i className="bi-reception-4" style={{color:"green"}}/> : <i className="bi-reception-0" style={{color:"red"}} />}
+            État {recette ? <i className="bi-reception-4" style={{color:"green"}}/> : <i className="bi-reception-0" style={{color:"red"}} />}
           </Navbar.Text>
             <Nav.Link href="/profil">Profil</Nav.Link>
             <Nav.Link href="/logout">
