@@ -4,10 +4,11 @@ import './styles/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import AboutPage from './AboutPage';
-import HomePage from './HomePage';
+import AboutPage from './components/AboutPage';
+import HomePage from './components/HomePage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import ListeCarteIngredient from './components/ListeCarteIngredient';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -19,6 +20,7 @@ root.render(
     <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/ingredients" element={<ListeCarteIngredient />} />
         </Routes>
     </BrowserRouter>
   </React.StrictMode>

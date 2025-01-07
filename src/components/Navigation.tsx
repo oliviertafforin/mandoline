@@ -2,15 +2,21 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import "./styles/Navigation.css";
+import "./../styles/Navigation.css";
 import React, { useEffect, useState } from "react";
-import { getRecette, Recette } from './services/recette';
+import { getRecette, Recette } from '../services/recette';
 
 function Navigation() {
   const [recette, setRecette] = useState<Recette | null>(null);
 
   useEffect(() => {
-    getRecette("ac020506-d23d-4218-b3ae-f9858b8833f7").then(setRecette);
+    getRecette("ac020506-d23d-4218-b3ae-f9858b8833f7").then((data) => {
+      if (data) {
+        setRecette(data);
+      } else {
+        setRecette(null);
+      }
+    });
   }, []);
   
   return (
@@ -27,11 +33,7 @@ function Navigation() {
                 Gérer mes recettes
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.3">Chercher un ingrédient</NavDropdown.Item>
-              
-              <NavDropdown.Item href="#action/3.4">
-                Gérer les ingrédients
-              </NavDropdown.Item>
+              <NavDropdown.Item href="/ingredients">Ingrédients</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Nav>
