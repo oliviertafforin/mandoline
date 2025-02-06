@@ -1,5 +1,7 @@
 // src/api/recette.tsx
 import { httpClient } from "./httpClient";
+import { Utilisateur } from "./utilisateur";
+import { Image } from "./image";
 
 // Define the type for a Recette
 export interface Recette {
@@ -9,6 +11,8 @@ export interface Recette {
   temperature: number;
   tpsCuisson: number;
   tpsPrepa: number;
+  proprietaire: Utilisateur;
+  image: Image;
 }
 
 // Fetch all recettes

@@ -1,7 +1,6 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import "./../styles/Navigation.css";
 import React, { useEffect, useState } from "react";
 import { getRecette, Recette } from '../services/recette';
@@ -27,14 +26,9 @@ function Navigation() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/about">À propos</Nav.Link>
-            <NavDropdown title="Recettes" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Chercher une recette</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Gérer mes recettes
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="/ingredients">Ingrédients</NavDropdown.Item>
-            </NavDropdown>
+            <Nav.Link href="/ingredients">Ingrédients</Nav.Link>
+            <Nav.Link href="/recettes">Recettes</Nav.Link>
+            <Nav.Link href="/courses">Liste de course</Nav.Link>
           </Nav>
           <Nav>
             { <Navbar.Text>  {recette ? recette.nom : 'Loading...'}</Navbar.Text> }

@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {
-  fetchIngredients,
-  Ingredient,
-} from "../services/ingredient";
+import { fetchIngredients, Ingredient } from "../services/ingredient";
 import CarteIngredient from "./CarteIngredient";
 import { Row } from "react-bootstrap";
 import "./../styles/ListeCarteIngredient.css";
+import Sidebar from "./Sidebar";
 
 function ListeCarteIngredient() {
-  const [IngredientList, setIngredientList] = useState<Ingredient[] | null>(
-    []
-  );
-
+  const [IngredientList, setIngredientList] = useState<Ingredient[] | null>([]);
   useEffect(() => {
+    console.log("useEffect");
     fetchIngredients().then((data) => {
       if (data) {
         setIngredientList(data);
@@ -20,15 +16,15 @@ function ListeCarteIngredient() {
         setIngredientList([]);
       }
     });
-  }, [IngredientList]);
+  }, []);
 
   return (
-    
     <div className="ingredient-list">
+      <Sidebar />
       <Row xs={1} md={2} className="row-card">
-      {IngredientList?.map((ingredient) => (
-        <CarteIngredient key={ingredient.id} ingredient={ingredient} />
-      ))}
+        {IngredientList?.map((ingredient) => (
+          <CarteIngredient key={ingredient.id} ingredient={ingredient} />
+        ))}
       </Row>
     </div>
   );
