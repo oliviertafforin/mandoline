@@ -1,4 +1,5 @@
 // src/api/utilisateur.tsx
+import { toast } from "react-toastify";
 import { httpClient } from "./httpClient";
 
 export interface Utilisateur {
@@ -14,6 +15,17 @@ export const fetchUtilisateurs = async () => {
       console.error("Erreur récupération des utilisateurs : " + error);
     });
   return response?.data;
+};
+
+//AUTH LOGIN
+export const login = async (pseudo: string, mdp: string) => {
+  const response = await httpClient
+  .post("/auth/login", { pseudo, mdp })
+  .catch((error) => {
+    console.error("Erreur connexion utilisateur : " + error);
+    toast.error("Pseudo/mdp incorrect");
+  });
+  return response;
 };
 
 export const getUtilisateur = async (id: string) => {
@@ -36,7 +48,10 @@ export const createUtilisateur = async (data: Utilisateur) => {
 };
 
 // Update an existing Utilisateur
-export const updateUtilisateur = async (id: number, data: Partial<Utilisateur>) => {
+export const updateUtilisateur = async (
+  id: number,
+  data: Partial<Utilisateur>
+) => {
   const response = await httpClient
     .put<Utilisateur>(`/utilisateur/${id}`, data)
     .catch((error) => {
