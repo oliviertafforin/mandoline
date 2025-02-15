@@ -18,7 +18,7 @@ function Navigation() {
         setRecette(null);
       }
     });
-  }, []);
+  }, [auth]);
 
   return (
     <Navbar expand="lg">

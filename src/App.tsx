@@ -2,10 +2,11 @@ import "./styles/App.css";
 import Navigation from "./components/Navigation";
 import React from "react";
 import { Slide, ToastContainer } from "react-toastify";
-import { AuthProvider } from "./components/utils/AuthContextType";
+import Footer from "./components/Footer";
+import { Outlet } from "react-router-dom";
 function App() {
   return (
-    <div>
+<div className="app-container">
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -20,6 +21,10 @@ function App() {
         transition={Slide}
       />
       <Navigation />
+      <main className="content">
+        <Outlet /> {/* Permet d'afficher les pages ici */}
+      </main>
+      <Footer />
     </div>
   );
 }

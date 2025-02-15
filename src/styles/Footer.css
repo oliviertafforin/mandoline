@@ -1,0 +1,24 @@
+.footer {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: relative; /* Important pour éviter d’être fixe */
+    bottom: 0;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  #root {
+    flex: 1;
+  }
+  
+  .main-content {
+    flex: 1;
+  }
+  
