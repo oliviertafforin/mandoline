@@ -10,6 +10,8 @@ export interface IngredientUtilisateur {
   prixUnite: number;
   prixKilo: number;
   eviter: boolean;
+  saison: number[];
+  remplacements: Ingredient[];
 }
 
 export const getIngredientUtilisateur = async (

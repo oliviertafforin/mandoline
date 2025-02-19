@@ -1,10 +1,30 @@
-import "./styles/App.css";
-import Navigation from "./components/Navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
 import { Slide, ToastContainer } from "react-toastify";
 import Footer from "./components/Footer";
-import { Outlet } from "react-router-dom";
+import Navigation from "./components/Navigation";
+import "./styles/App.css";
+import { prechargement, ResultatRecherche } from "./services/recherche";
+
 function App() {
+  const [searchData, setSearchData] = useState<ResultatRecherche[]>([]);
+
+  useEffect(() => {
+    // Précharger les données lors du montage du composant
+    const fetchSearchData = async () => {
+      prechargement().then((data) => {
+        console.log(data);
+        if (data) {
+            setSearchData(data);
+        } else {
+            setSearchData([]);
+        }
+      });
+    };
+
+    fetchSearchData();
+  }, []);
+  
   return (
 <div className="app-container">
       <ToastContainer
@@ -20,7 +40,7 @@ function App() {
         theme="light"
         transition={Slide}
       />
-      <Navigation />
+      <Navigation searchData={searchData} />
       <main className="content">
         <Outlet /> {/* Permet d'afficher les pages ici */}
       </main>

@@ -16,6 +16,12 @@ function IngredientDetails() {
   const [IngredientUtilisateur, setIngredientUtilisateur] =
     useState<IngredientUtilisateur | null>(null);
 
+    const monthNames = [
+      "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+      "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+    ];
+
+    
   useEffect(() => {
     if (id) {
       getIngredient(id).then((data) => {
@@ -57,6 +63,14 @@ function IngredientDetails() {
         <li className="item">
           Prix à l'unité : {IngredientUtilisateur?.prixUnite} ✅
         </li>
+        <li>Mois à préférer : </li>
+        {IngredientUtilisateur?.saison.map(mois => {
+          return monthNames[mois] + ", ";
+        })}
+        <li>Remplacements potentiels : </li>
+        {IngredientUtilisateur?.remplacements.map(r => {
+          return r.nom + ", ";
+        })}
       </ul>
 
       <div></div>

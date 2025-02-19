@@ -8,7 +8,6 @@ import Sidebar from "./Sidebar";
 function ListeCarteRecette() {
   const [RecetteList, setRecetteList] = useState<Recette[] | null>([]);
   useEffect(() => {
-    console.log("useEffect");
     fetchRecettes().then((data) => {
       if (data) {
         setRecetteList(data);
