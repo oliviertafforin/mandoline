@@ -7,34 +7,27 @@ import { getRecette, Recette } from "../services/recette";
 import { AuthContext } from "./utils/AuthContextType";
 import SearchBar from "./SearchBar";
 import { ResultatRecherche } from "../services/recherche";
+import { useNavigate } from "react-router-dom";
 
 interface NavigationProps {
   searchData: Array<ResultatRecherche>;
 }
 
 const Navigation: React.FC<NavigationProps> = ({ searchData }) => {
-  const [recette, setRecette] = useState<Recette | null>(null);
   const [error, setError] = useState<string | null>(null);
   const auth = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    getRecette("ac020506-d23d-4218-b3ae-f9858b8833f7")
-      .then((data) => {
-        if (data) {
-          setRecette(data);
-        } else {
-          setRecette(null);
-        }
-      })
-      .catch(() => {
-        setError("Erreur lors du chargement de la recette.");
-      });
-  }, [auth]);
-
-  const handleLogout = useCallback((e : any) => {
-    e.preventDefault();
-    auth.logout();
-  }, [auth]);
+  // Déconnexion => suppression du token en local storage et dans les headers axios
+  //redirection à la page d'accueil
+  const handleLogout = useCallback(
+    (e: any) => {
+      e.preventDefault();
+      auth.logout();
+      navigate("/");
+    },
+    [auth, navigate]
+  );
 
   return (
     <Navbar expand="lg">
@@ -48,23 +41,11 @@ const Navigation: React.FC<NavigationProps> = ({ searchData }) => {
               <Nav.Link href="/recettes">Recettes</Nav.Link>
               <Nav.Link href="/courses">Liste de course</Nav.Link>
             </Nav>
-            <SearchBar searchData={searchData} onSearch={(query) => console.log("Recherche :", query)} />
+            <SearchBar
+              searchData={searchData}
+              onSearch={(query) => console.log("Recherche :", query)}
+            />
             <Nav>
-              {error ? (
-                <Navbar.Text>{error}</Navbar.Text>
-              ) : (
-                <Navbar.Text>
-                  {recette ? recette.nom : "Loading..."}
-                </Navbar.Text>
-              )}
-              <Navbar.Text>
-                État
-                {recette ? (
-                  <i className="bi-reception-4" style={{ color: "green" }} />
-                ) : (
-                  <i className="bi-reception-0" style={{ color: "red" }} />
-                )}
-              </Navbar.Text>
               <Nav.Link href="/profil">Profil</Nav.Link>
               <Nav.Link onClick={handleLogout}>Déconnexion</Nav.Link>
             </Nav>
@@ -75,16 +56,20 @@ const Navigation: React.FC<NavigationProps> = ({ searchData }) => {
               <Nav.Link href="/ingredients">Ingrédients</Nav.Link>
               <Nav.Link href="/recettes">Recettes</Nav.Link>
               <Nav.Link href="/courses">Liste de course</Nav.Link>
+              
             </Nav>
+            <SearchBar
+              searchData={searchData}
+              onSearch={(query) => console.log("Recherche :", query)}
+            />
             <Nav>
               <Nav.Link href="/login">Connexion</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         )}
-        
       </Container>
     </Navbar>
   );
-}
+};
 
 export default React.memo(Navigation);
