@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Ingredient } from "../services/ingredient";
 import "./../styles/CarteIngredient.css";
 import { Button, Card } from "react-bootstrap";
@@ -9,6 +9,17 @@ interface CarteIngredientProps {
 }
 
 const CarteIngredient: React.FC<CarteIngredientProps> = ({ ingredient }) => {
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    const titleElement = titleRef.current;
+    if (titleElement && titleElement.scrollWidth > titleElement.clientWidth) {
+      titleElement.classList.add("adjusted");
+    } else if (titleElement) {
+      titleElement.classList.remove("adjusted");
+    }
+  }, [ingredient.nom]);
+  
   return (
     <Card className="ingredient-card">
       <Button
@@ -25,7 +36,7 @@ const CarteIngredient: React.FC<CarteIngredientProps> = ({ ingredient }) => {
           src={ingredient.image.url}
         />
         <Card.Body>
-          <Card.Title className="ingredient-card__title">
+          <Card.Title className="ingredient-card__title" ref={titleRef}>
             {ingredient.nom}
           </Card.Title>
           <Card.Text className="ingredient-card__description">

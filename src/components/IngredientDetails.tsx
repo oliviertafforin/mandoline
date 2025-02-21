@@ -12,8 +12,8 @@ import { useParams } from "react-router-dom";
 
 function IngredientDetails() {
   const { id } = useParams();
-  const [Ingredient, setIngredient] = useState<Ingredient | null>(null);
-  const [IngredientUtilisateur, setIngredientUtilisateur] =
+  const [ingredient, setIngredient] = useState<Ingredient | null>(null);
+  const [ingredientUtilisateur, setIngredientUtilisateur] =
     useState<IngredientUtilisateur | null>(null);
 
     const monthNames = [
@@ -45,30 +45,30 @@ function IngredientDetails() {
   return (
     <div className="ingredient">
         <ReturnButton/>
-      <h1>{Ingredient?.nom}</h1>
+      <h1>{ingredient?.nom}</h1>
       <Image
         className="icone-ingredient"
-        src={Ingredient?.image.url}
+        src={ingredient?.image.url}
         roundedCircle
       />
       <ul>
         <li className="item">
-          {IngredientUtilisateur?.eviter
+          {ingredientUtilisateur?.eviter
             ? "Aliment évité ❌"
             : "Aliment validé ✅"}{" "}
         </li>
         <li className="item">
-          Prix au kilo : {IngredientUtilisateur?.prixKilo} ✅
+          Prix au kilo : {ingredientUtilisateur?.prixKilo} ✅
         </li>
         <li className="item">
-          Prix à l'unité : {IngredientUtilisateur?.prixUnite} ✅
+          Prix à l'unité : {ingredientUtilisateur?.prixUnite} ✅
         </li>
         <li>Mois à préférer : </li>
-        {IngredientUtilisateur?.saison.map(mois => {
+        {ingredientUtilisateur?.saison.map(mois => {
           return monthNames[mois] + ", ";
         })}
         <li>Remplacements potentiels : </li>
-        {IngredientUtilisateur?.remplacements.map(r => {
+        {ingredientUtilisateur?.remplacements.map(r => {
           return r.nom + ", ";
         })}
       </ul>

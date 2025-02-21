@@ -1,25 +1,22 @@
-import React, { useContext, useEffect, useState, useCallback } from "react";
+import React, { useContext, useCallback } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import "./../styles/Navigation.css";
-import { getRecette, Recette } from "../services/recette";
 import { AuthContext } from "./utils/AuthContextType";
 import SearchBar from "./SearchBar";
 import { ResultatRecherche } from "../services/recherche";
 import { useNavigate } from "react-router-dom";
 
 interface NavigationProps {
-  searchData: Array<ResultatRecherche>;
+  resultatsPrecharges: Array<ResultatRecherche>;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ searchData }) => {
-  const [error, setError] = useState<string | null>(null);
+const Navigation: React.FC<NavigationProps> = ({ resultatsPrecharges }) => {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Déconnexion => suppression du token en local storage et dans les headers axios
-  //redirection à la page d'accueil
+  // Déconnexion => suppression du token en local storage et dans les headers axios et redirection à la page d'accueil
   const handleLogout = useCallback(
     (e: any) => {
       e.preventDefault();
@@ -42,11 +39,11 @@ const Navigation: React.FC<NavigationProps> = ({ searchData }) => {
               <Nav.Link href="/courses">Liste de course</Nav.Link>
             </Nav>
             <SearchBar
-              searchData={searchData}
+              resultatsPrecharges={resultatsPrecharges}
               onSearch={(query) => console.log("Recherche :", query)}
             />
             <Nav>
-              <Nav.Link href="/profil">Profil</Nav.Link>
+              <Nav.Link href="/profil">{auth.username}</Nav.Link>
               <Nav.Link onClick={handleLogout}>Déconnexion</Nav.Link>
             </Nav>
           </Navbar.Collapse>
@@ -59,7 +56,7 @@ const Navigation: React.FC<NavigationProps> = ({ searchData }) => {
               
             </Nav>
             <SearchBar
-              searchData={searchData}
+              resultatsPrecharges={resultatsPrecharges}
               onSearch={(query) => console.log("Recherche :", query)}
             />
             <Nav>

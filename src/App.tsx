@@ -7,7 +7,7 @@ import "./styles/App.css";
 import { prechargement, ResultatRecherche } from "./services/recherche";
 
 function App() {
-  const [searchData, setSearchData] = useState<ResultatRecherche[]>([]);
+  const [resultatsPrecharges, setResultatsPrecharges] = useState<ResultatRecherche[]>([]);
 
   useEffect(() => {
     // Précharger les données lors du montage du composant
@@ -15,9 +15,9 @@ function App() {
       prechargement().then((data) => {
         console.log(data);
         if (data) {
-            setSearchData(data);
+          setResultatsPrecharges(data);
         } else {
-            setSearchData([]);
+          setResultatsPrecharges([]);
         }
       });
     };
@@ -40,7 +40,7 @@ function App() {
         theme="light"
         transition={Slide}
       />
-      <Navigation searchData={searchData} />
+      <Navigation resultatsPrecharges={resultatsPrecharges} />
       <main className="content">
         <Outlet /> {/* Permet d'afficher les pages ici */}
       </main>

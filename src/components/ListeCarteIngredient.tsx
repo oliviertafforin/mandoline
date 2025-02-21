@@ -22,9 +22,11 @@ function ListeCarteIngredient() {
     <div className="ingredient-list">
       <Sidebar />
       <Row xs={1} md={2} className="row-card">
-        {IngredientList?.map((ingredient) => (
-          <CarteIngredient key={ingredient.id} ingredient={ingredient} />
-        ))}
+        {IngredientList?.sort((a, b) => a.nom.localeCompare(b.nom)).map(
+          (ingredient) => (
+            <CarteIngredient key={ingredient.id} ingredient={ingredient} />
+          )
+        )}
       </Row>
     </div>
   );

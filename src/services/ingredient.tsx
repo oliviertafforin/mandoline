@@ -40,7 +40,7 @@ export const createIngredient = async (data: Ingredient) => {
 };
 
 // Update an existing ingredient
-export const updateIngredient = async (id: number, data: Partial<Ingredient>) => {
+export const updateIngredient = async (id: string, data: Partial<Ingredient>) => {
   const response = await httpClient
     .put<Ingredient>(`/ingredient/${id}`, data)
     .catch((error) => {
@@ -50,7 +50,7 @@ export const updateIngredient = async (id: number, data: Partial<Ingredient>) =>
 };
 
 // Delete a ingredient
-export const deleteIngredient = async (id: number) => {
+export const deleteIngredient = async (id: string) => {
   const response = await httpClient
     .delete<void>(`/ingredient/${id}`)
     .catch((error) => {

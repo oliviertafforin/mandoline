@@ -18,12 +18,15 @@ import RecetteDetails from "./components/RecetteDetails";
 import RecetteDetailsForm from "./components/RecetteDetailsForm";
 import Footer from "./components/Footer";
 import CoursesPage from "./components/pages/CoursesPage";
+import ResultatsRecherchePage from "./components/pages/ResultatsRecherchePage";
+import { GlobalProvider } from "./components/Context";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <AuthProvider>
+    <GlobalProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
@@ -40,9 +43,11 @@ root.render(
           <Route path="recettes" element={<ListeCarteRecette />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="courses" element={<CoursesPage />} />
+          <Route path="resultats" element={<ResultatsRecherchePage/>} />
         </Route>
       </Routes>
     </BrowserRouter>
+    </GlobalProvider>
   </AuthProvider>
 );
 

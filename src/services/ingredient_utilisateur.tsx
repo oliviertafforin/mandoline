@@ -40,12 +40,12 @@ export const getIngredientUtilisateur = async (
 //   return response?.data;
 // };
 
-// // Update an existing ingredient
-// export const updateIngredientUtilisateur = async (idIngredient:string, idUtilisateur: string, data: Partial<IngredientUtilisateur>) => {
-//   const response = await httpClient
-//     .put<IngredientUtilisateur>(`/ingredient/${idIngredient}/utilisateur/${idUtilisateur}`, data)
-//     .catch((error) => {
-//       console.error("Erreur màj de l'ingredient de l'utilisateur : " + error);
-//     });
-//   return response?.data;
-// };
+// Update an existing ingredient
+export const updateIngredientUtilisateur = async (idIngredient:string, idUtilisateur: string, data: Partial<IngredientUtilisateur>) => {
+  const response = await httpClient
+    .put<IngredientUtilisateur>(`/ingredient/${idIngredient}/utilisateur/${idUtilisateur}`, data)
+    .catch((error) => {
+      console.error("Erreur màj de l'ingredient de l'utilisateur : " + error);
+    });
+  return response?.data;
+};

@@ -24,15 +24,7 @@ function RecetteDetailsForm() {
 
   async function updateRecette(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log("soumission du formulaire");
-    const formData = new FormData(e.currentTarget);
 
-    const formValues = {
-      avoid: formData.get("avoid"),
-    };
-
-    console.log(formData.get("avoid"));
-    console.log(formValues);
   }
 
   return (

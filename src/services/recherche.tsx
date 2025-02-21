@@ -14,7 +14,7 @@ export interface ResultatRecherche {
 //tous les resultats pour une query
 export const recherche = async (query : string) => {
   const response = await httpClient
-    .get<ResultatRecherche[]>(`/recherche?query=${query}`)
+    .get<ResultatRecherche[]>(`/recherche/${query}`)
     .catch((error) => {
       console.error("Erreur recherche: " + error);
     });
