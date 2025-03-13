@@ -3,7 +3,7 @@ import { fetchIngredients, Ingredient } from "../services/ingredient";
 import CarteIngredient from "./CarteIngredient";
 import { Row } from "react-bootstrap";
 import "./../styles/ListeCarteIngredient.css";
-import Sidebar from "./Sidebar";
+import Sidebar from "./SidebarIngredient";
 
 function ListeCarteIngredient() {
   const [IngredientList, setIngredientList] = useState<Ingredient[] | null>([]);

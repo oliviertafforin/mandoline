@@ -7,12 +7,23 @@ import { Image } from "./image";
 export interface Recette {
   id?: string;
   nom: string;
-  instruction: string;
-  temperature: number;
-  tpsCuisson: number;
-  tpsPrepa: number;
-  proprietaire: Utilisateur;
-  image: Image;
+  introduction?: string | undefined;
+  nbPersonnes?: number | undefined;
+  tpsCuisson?: number | undefined;
+  temperature?:number | undefined;
+  tpsPrepa?: number | undefined;
+  proprietaire?: Utilisateur | undefined;
+  categorie?: string;
+  image?: Image | undefined;
+}
+
+export enum Categorie {
+  Aperitif = "Apéritif",
+  Boissons = "Boissons",
+  Bases = "Bases",
+  Plats = "Plats",
+  Entrees = "Entrées",
+  Desserts = "Desserts",
 }
 
 // Fetch all recettes
@@ -45,7 +56,7 @@ export const createRecette = async (data: Recette) => {
 };
 
 // Update an existing recette
-export const updateRecette = async (id: number, data: Partial<Recette>) => {
+export const updateRecette = async (id: string, data: Partial<Recette>) => {
   const response = await httpClient
     .put<Recette>(`/recette/${id}`, data)
     .catch((error) => {

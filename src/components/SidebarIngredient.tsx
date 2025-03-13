@@ -4,7 +4,7 @@ import { Button, Form } from "react-bootstrap";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // Import modern icons
 import "../styles/Sidebar.css";
 
-const Sidebar: React.FC = () => {
+const SidebarIngredient: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
 
@@ -30,15 +30,7 @@ const Sidebar: React.FC = () => {
           <h4>Filtres</h4>
           <Form>
             <Form.Check type="checkbox" label="De saison" />
-            <Form.Check type="checkbox" label="Préférées seulement" />
-            <Form.Check type="checkbox" label="Rapides" />
-            <Form.Check type="checkbox" label="Faciles" />
-            <Form.Check type="checkbox" label="Végés" />
-            <Form.Check type="checkbox" label="Véganes" />
-            <Form.Check type="checkbox" label="Entrées" />
-            <Form.Check type="checkbox" label="Plats" />
-            <Form.Check type="checkbox" label="Desserts" />
-            <Form.Check type="checkbox" label="Pas chères" />
+            <Form.Check type="checkbox" label="Préférés seulement" />
             <Form.Check type="checkbox" label="Option 1" />
             <Form.Check type="checkbox" label="Option 2" />
             <Form.Check type="checkbox" label="Option 3" />
@@ -56,4 +48,4 @@ const Sidebar: React.FC = () => {
   );
 };
 
-export default Sidebar;
+export default SidebarIngredient;

@@ -3,7 +3,7 @@ import { fetchRecettes, Recette } from "../services/recette";
 import CarteRecette from "./CarteRecette";
 import {  Row } from "react-bootstrap";
 import "./../styles/ListeCarteRecette.css";
-import Sidebar from "./Sidebar";
+import Sidebar from "./SidebarRecette";
 
 function ListeCarteRecette() {
   const [RecetteList, setRecetteList] = useState<Recette[] | null>([]);

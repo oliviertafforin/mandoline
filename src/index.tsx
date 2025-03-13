@@ -16,7 +16,6 @@ import LoginPage from "./components/pages/LoginPage";
 import { AuthProvider } from "./components/utils/AuthContextType";
 import RecetteDetails from "./components/RecetteDetails";
 import RecetteDetailsForm from "./components/RecetteDetailsForm";
-import Footer from "./components/Footer";
 import CoursesPage from "./components/pages/CoursesPage";
 import ResultatsRecherchePage from "./components/pages/ResultatsRecherchePage";
 import { GlobalProvider } from "./components/Context";
@@ -39,6 +38,7 @@ root.render(
           <Route path="ingredients/:id" element={<IngredientDetails />} />
           <Route path="ingredients" element={<ListeCarteIngredient />} />
           <Route path="recettes/:id/edit" element={<RecetteDetailsForm />} />
+          <Route path="add-recette" element={<RecetteDetailsForm />} />
           <Route path="recettes/:id" element={<RecetteDetails />} />
           <Route path="recettes" element={<ListeCarteRecette />} />
           <Route path="login" element={<LoginPage />} />

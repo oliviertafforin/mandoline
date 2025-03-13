@@ -19,15 +19,18 @@ const CarteRecette: React.FC<CarteRecetteProps> = ({ recette }) => {
         <i className="bi-wrench" style={{ color: "white" }} />
       </Button>
       <NavLink className="card-link" to={`/recettes/${recette.id}`}>
-        <Card.Img
-          className="recette-card__image"
-          variant="top"
-          src={recette.image.url}
-        />
+        {recette?.image ? (
+          <Card.Img
+            className="recette-card__image"
+            variant="top"
+            src={recette?.image.url}
+          />
+        ) : (
+          <p>Pas d'image disponible</p>
+        )}
+
         <Card.Body>
-          <Card.Title className="recette-card__title">
-            {recette.nom}
-          </Card.Title>
+          <Card.Title className="recette-card__title">{recette.nom}</Card.Title>
           <Card.Text className="recette-card__description">
             Le {recette.nom} c'est bien
           </Card.Text>

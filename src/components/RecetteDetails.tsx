@@ -26,7 +26,8 @@ function RecetteDetails() {
     <div className="recette">
       <ReturnButton />
       <h1>{Recette?.nom}</h1>
-      <Image className="icone-recette" src={Recette?.image.url} roundedCircle />
+      {Recette?.image ? <Image className="icone-recette" src={Recette?.image.url} roundedCircle /> : <p>Pas d'image disponible</p> }
+      
       <div></div>
     </div>
   );
