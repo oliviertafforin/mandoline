@@ -5,7 +5,7 @@ import { httpClient } from "./httpClient";
 export interface Image {
   id?: string;
   libelle : string;
-  url: string;
+  url?: string;
 }
 
 export const getImage = async (id: string) => {

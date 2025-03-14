@@ -3,11 +3,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 import React from "react";
+import { Utilisateur } from "../../services/utilisateur";
 
 interface AuthContextType {
   token: string | null;
   id: string | null;
   username: string | null;
+  utilisateur : Utilisateur | undefined;
   login: (token: string) => void;
   logout: () => void;
 }
@@ -22,6 +24,7 @@ export const AuthContext = createContext<AuthContextType>({
   token: null,
   id: null,
   username: null,
+  utilisateur: undefined,
   login: () => {},
   logout: () => {},
 });
@@ -42,6 +45,10 @@ const useAuthState = () => {
   const [token, setToken] = useState<string | null>(localStorage.getItem("token") || null);
   const [username, setUsername] = useState<string | null>(getInfoFromJwt(token, "sub") || null);
   const [id, setId] = useState<string | null>(getInfoFromJwt(token, "id") || null);
+  const [utilisateur] = useState<Utilisateur | undefined>({
+    "id" : id,
+    "pseudo" : username
+  });
 
   useEffect(() => {
     if (token) {
@@ -66,7 +73,7 @@ const useAuthState = () => {
     delete axios.defaults.headers.common["Authorization"];
   };
 
-  return { token, username, id, login, logout };
+  return { token, username, id, utilisateur, login, logout };
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {

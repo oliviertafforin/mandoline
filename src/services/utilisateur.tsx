@@ -3,8 +3,8 @@ import { toast } from "react-toastify";
 import { httpClient } from "./httpClient";
 
 export interface Utilisateur {
-  id?: string;
-  pseudo: string;
+  id?: string | null;
+  pseudo: string | null;
 }
 
 // Fetch all utilisateurs

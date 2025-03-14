@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Categorie, getRecette, Recette, updateRecette } from "../services/recette";
+import { Categorie, createRecette, getRecette, Recette, updateRecette } from "../services/recette";
 import "./../styles/RecetteDetailsForm.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import ReturnButton from "./ReturnButton";
 import { useAuth } from "./utils/AuthContextType";
+import { Image } from "../services/image";
 function RecetteDetailsForm() {
   const { id } = useParams();
   const auth = useAuth();
@@ -18,11 +19,11 @@ function RecetteDetailsForm() {
     tpsCuisson: 0,
     categorie: "",
     introduction: "",
-    proprietaire: undefined,
+    proprietaire: auth.utilisateur,
     nbPersonnes: 0,
     image: undefined,
   });
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<string>();
 
   useEffect(() => {
     if (id) {
@@ -37,13 +38,22 @@ function RecetteDetailsForm() {
   async function sauvegarderRecette(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     // Logique de soumission du formulaire
-    if (recette && id && auth.id) {
-      const recetteModifiee = { ...recette };
-      console.log(recetteModifiee);
-      console.log(id);
-      console.log(auth.id);
+    if (recette && auth.id) {
+      // Créez un objet Image
+    const imagePrincipale : Image = {
+      id: undefined, // L'ID peut être généré ou assigné par le serveur
+      libelle: recette.nom,
+      url:  "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Begrippenlijst.svg"
+    };
+      const recetteModifiee = { ...recette, image : imagePrincipale};
+    
       try {
-        await updateRecette(id, recetteModifiee);
+        if(id){
+          await updateRecette(id, recetteModifiee);
+        } else{
+          await createRecette(recetteModifiee);
+        }
+      
         console.log("Recette mise à jour avec succès");
         navigate("/recettes");
       } catch (error) {
@@ -54,6 +64,8 @@ function RecetteDetailsForm() {
 
   const handleClick = () => {
     if (fileRef.current) {
+      console.log("clicjk");
+      console.log(fileRef.current);
       fileRef.current.click();
     }
   };
@@ -102,7 +114,7 @@ function RecetteDetailsForm() {
 
           <div className="form-group details-recette">
             <div className="uploader">
-              <button
+              <button type="button"
                 className="uploader_placeholder uploader_button icon-add-photo"
                 onClick={() => handleClick()}
               >
