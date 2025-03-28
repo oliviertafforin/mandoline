@@ -33,7 +33,7 @@ const CarteIngredient: React.FC<CarteIngredientProps> = ({ ingredient }) => {
         <Card.Img
           className="ingredient-card__image"
           variant="top"
-          src={ingredient.image.url}
+          src={ingredient.image.path}
         />
         <Card.Body>
           <Card.Title className="ingredient-card__title" ref={titleRef}>

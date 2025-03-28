@@ -48,7 +48,7 @@ function IngredientDetails() {
       <h1>{ingredient?.nom}</h1>
       <Image
         className="icone-ingredient"
-        src={ingredient?.image.url}
+        src={ingredient?.image.path}
         roundedCircle
       />
       <ul>

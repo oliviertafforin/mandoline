@@ -76,9 +76,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ resultatsPrecharges }) => {
                 href={`/${result.type}/${result.id}`}
                 className="search-results-dropdown-row"
               >
-                {result.image.url && (
+                {result.image.path && (
                   <img
-                    src={result.image.url}
+                    src={result.image.path}
                     alt={result.nom}
                     className="search-result-image"
                   />

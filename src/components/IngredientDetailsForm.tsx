@@ -98,11 +98,11 @@ function IngredientDetailsForm() {
           <Form.Label>URL de l'image</Form.Label>
           <Form.Control
             type="text"
-            value={ingredient.image.url}
+            value={ingredient.image.path}
             onChange={(e) =>
               setIngredient({
                 ...ingredient,
-                image: { ...ingredient.image, url: e.target.value },
+                image: { ...ingredient.image, path: e.target.value },
               })
             }
           />

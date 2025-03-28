@@ -1,17 +1,29 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Categorie, createRecette, getRecette, Recette, updateRecette } from "../services/recette";
+import {
+  Categorie,
+  createRecette,
+  getRecette,
+  Recette,
+  updateRecette,
+} from "../services/recette";
 import "./../styles/RecetteDetailsForm.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import ReturnButton from "./ReturnButton";
 import { useAuth } from "./utils/AuthContextType";
-import { Image } from "../services/image";
+import {
+  createImage,
+  Image,
+  updateImage,
+  uploadImage,
+} from "../services/image";
 function RecetteDetailsForm() {
   const { id } = useParams();
   const auth = useAuth();
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   //Initialisation de Recette par défaut
   const [recette, setRecette] = useState<Recette>({
     nom: "",
@@ -40,20 +52,36 @@ function RecetteDetailsForm() {
     // Logique de soumission du formulaire
     if (recette && auth.id) {
       // Créez un objet Image
-    const imagePrincipale : Image = {
-      id: undefined, // L'ID peut être généré ou assigné par le serveur
-      libelle: recette.nom,
-      url:  "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Begrippenlijst.svg"
-    };
-      const recetteModifiee = { ...recette, image : imagePrincipale};
-    
+      let imagePrincipale: Image | undefined = {
+        libelle: recette.nom,
+        path: recette.image?.path
+      };
+
+      //update ou create l'imageDTO
+      if (recette.image?.id) {
+        imagePrincipale = await updateImage(recette.image?.id, imagePrincipale);
+      } else {
+        imagePrincipale = await createImage(imagePrincipale);
+      }
+      if (imagePrincipale === undefined || imagePrincipale.id === undefined) {
+        console.error("Erreur mise à jour de l'image");
+        return;
+      }
+
+      //upload l'image => màj le path
+      if (selectedFile) {
+        imagePrincipale = await uploadImage(selectedFile, imagePrincipale.id);
+      }
+
+      const recetteModifiee = { ...recette, image: imagePrincipale };
+
       try {
-        if(id){
+        if (id) {
           await updateRecette(id, recetteModifiee);
-        } else{
+        } else {
           await createRecette(recetteModifiee);
         }
-      
+
         console.log("Recette mise à jour avec succès");
         navigate("/recettes");
       } catch (error) {
@@ -64,7 +92,6 @@ function RecetteDetailsForm() {
 
   const handleClick = () => {
     if (fileRef.current) {
-      console.log("clicjk");
       console.log(fileRef.current);
       fileRef.current.click();
     }
@@ -78,6 +105,7 @@ function RecetteDetailsForm() {
         setImage(reader.result as string);
       };
       reader.readAsDataURL(file);
+      setSelectedFile(file);
     }
   };
 
@@ -114,7 +142,8 @@ function RecetteDetailsForm() {
 
           <div className="form-group details-recette">
             <div className="uploader">
-              <button type="button"
+              <button
+                type="button"
                 className="uploader_placeholder uploader_button icon-add-photo"
                 onClick={() => handleClick()}
               >

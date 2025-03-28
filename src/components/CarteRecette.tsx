@@ -1,14 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Recette } from "../services/recette";
 import "./../styles/CarteRecette.css";
 import { Button, Card } from "react-bootstrap";
 import { NavLink } from "react-router";
+import { download } from "../services/image";
 
 interface CarteRecetteProps {
   recette: Recette;
 }
 
 const CarteRecette: React.FC<CarteRecetteProps> = ({ recette }) => {
+  const [imageSrc, setImageSrc] = useState("");
+  useEffect(() => {
+
+    if(recette.image && recette.image?.id){
+      download(recette.image?.id).then((src) => {
+        if(src){
+           setImageSrc(src);
+        }
+      });
+    }
+  }, [recette.image]);
+
   return (
     <Card className="recette-card">
       <Button
@@ -23,7 +36,8 @@ const CarteRecette: React.FC<CarteRecetteProps> = ({ recette }) => {
           <Card.Img
             className="recette-card__image"
             variant="top"
-            src={recette?.image.url}
+            // src={recette?.image.path}
+            src={imageSrc}
           />
         ) : (
           <p>Pas d'image disponible</p>
