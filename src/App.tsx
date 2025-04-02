@@ -13,7 +13,6 @@ function App() {
     // Précharger les données lors du montage du composant
     const fetchSearchData = async () => {
       prechargement().then((data) => {
-        console.log(data);
         if (data) {
           setResultatsPrecharges(data);
         } else {

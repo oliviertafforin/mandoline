@@ -36,7 +36,6 @@ const CarteRecette: React.FC<CarteRecetteProps> = ({ recette }) => {
           <Card.Img
             className="recette-card__image"
             variant="top"
-            // src={recette?.image.path}
             src={imageSrc}
           />
         ) : (

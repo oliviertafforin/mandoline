@@ -18,9 +18,9 @@
 
 .ingredient-card__image {
   width: 100%; /* Assure que l'image prend toute la largeur disponible */
-  height: 150px; /* Définissez une hauteur fixe pour toutes les images */
-  object-fit: cover; /* L'image couvre tout l'espace sans déformation */
   border-radius: 8px 8px 0 0; /* Arrondir les coins supérieurs de l'image */
+  object-fit: cover;
+  aspect-ratio: 16 / 9;
 }
 
 .ingredient-card__title {

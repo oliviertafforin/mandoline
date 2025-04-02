@@ -14,16 +14,25 @@ import ReturnButton from "./ReturnButton";
 import { useAuth } from "./utils/AuthContextType";
 import {
   createImage,
+  download,
   Image,
   updateImage,
   uploadImage,
 } from "../services/image";
+
+// Définir une interface pour les étapes
+interface Etape {
+  titre: string;
+  texte: string;
+}
+
 function RecetteDetailsForm() {
   const { id } = useParams();
   const auth = useAuth();
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [etapes, setEtapes] = useState<Etape[]>([]);
   //Initialisation de Recette par défaut
   const [recette, setRecette] = useState<Recette>({
     nom: "",
@@ -36,16 +45,47 @@ function RecetteDetailsForm() {
     image: undefined,
   });
   const [image, setImage] = useState<string>();
+  const [nomImage, setNomImage] = useState<string>();
 
   useEffect(() => {
     if (id) {
       getRecette(id).then((data) => {
         if (data) {
+          console.log(data);
           setRecette(data);
+          if (data.image && data.image?.id) {
+            download(data.image?.id).then((image) => {
+              if (image) {
+                setImage(image);
+              }
+            });
+          }
+          // Initialiser les étapes à partir du tableau JSON
+          if (data.etapes) {
+            setEtapes(JSON.parse(data.etapes));
+          }
         }
       });
     }
-  }, [id]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const ajouterEtape = () => {
+    setEtapes([...etapes, { titre: "", texte: "" }]);
+  };
+
+  const supprimerEtape = (index: number) => {
+    const nouvellesEtapes = [...etapes];
+    nouvellesEtapes.splice(index, 1);
+    setEtapes(nouvellesEtapes);
+  };
+
+  const modifierEtape = (index: number, champ: keyof Etape, valeur: string) => {
+    const nouvellesEtapes = [...etapes];
+    nouvellesEtapes[index][champ] = valeur;
+    setEtapes(nouvellesEtapes);
+  };
 
   async function sauvegarderRecette(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -54,13 +94,14 @@ function RecetteDetailsForm() {
       // Créez un objet Image
       let imagePrincipale: Image | undefined = {
         libelle: recette.nom,
-        path: recette.image?.path
+        path: recette.image?.path,
       };
 
       //update ou create l'imageDTO
       if (recette.image?.id) {
         imagePrincipale = await updateImage(recette.image?.id, imagePrincipale);
       } else {
+        imagePrincipale.path = nomImage;
         imagePrincipale = await createImage(imagePrincipale);
       }
       if (imagePrincipale === undefined || imagePrincipale.id === undefined) {
@@ -73,7 +114,11 @@ function RecetteDetailsForm() {
         imagePrincipale = await uploadImage(selectedFile, imagePrincipale.id);
       }
 
-      const recetteModifiee = { ...recette, image: imagePrincipale };
+      const recetteModifiee = {
+        ...recette,
+        image: imagePrincipale,
+        etapes: JSON.stringify(etapes),
+      };
 
       try {
         if (id) {
@@ -103,6 +148,7 @@ function RecetteDetailsForm() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result as string);
+        setNomImage(file.name);
       };
       reader.readAsDataURL(file);
       setSelectedFile(file);
@@ -113,17 +159,29 @@ function RecetteDetailsForm() {
     <div>
       <ReturnButton label="← Retour" />
       <div className="formulaire-container">
-        <h1>{id ? "Modifier la recette" : "Écrire une nouvelle recette"}</h1>
+        <div className="label-titre-etape">
+          <h1>{id ? "Modifier la recette" : "Écrire une nouvelle recette"}</h1>
+          <Button
+            type="submit"
+            variant="primary"
+            className="submit-button"
+            form="formulaireRecette"
+          >
+            Sauvegarder
+          </Button>
+        </div>
+
         <p>
           Utilisez ce formulaire pour sauvegarder et partager vos recettes avec
           votre famille, vos amis ! Essayez d'être précis et clair pour que tout
           cuistot en herbe puisse réaliser votre recette sans problème !
         </p>
-        <Form onSubmit={sauvegarderRecette}>
+        <Form id="formulaireRecette" onSubmit={sauvegarderRecette}>
           <Form.Group className="form-group" controlId="nomRecette">
             <Form.Label>Nom de la recette</Form.Label>
             <Form.Control
               type="text"
+              maxLength={32}
               value={recette.nom || ""}
               onChange={(e) => setRecette({ ...recette, nom: e.target.value })}
             />
@@ -170,7 +228,7 @@ function RecetteDetailsForm() {
                 className="details-base-recette-ligne"
                 controlId="tempsPreparation"
               >
-                <Form.Label>Temps de préparation</Form.Label>
+                <Form.Label>Temps de préparation (min.)</Form.Label>
 
                 <Form.Control
                   type="text"
@@ -195,7 +253,7 @@ function RecetteDetailsForm() {
                 className="details-base-recette-ligne"
                 controlId="tempsCuisson"
               >
-                <Form.Label>Temps de cuisson</Form.Label>
+                <Form.Label>Temps de cuisson (min.)</Form.Label>
 
                 <Form.Control
                   className="input-nombre"
@@ -262,9 +320,56 @@ function RecetteDetailsForm() {
             </div>
           </div>
 
-          <Button type="submit" variant="primary" className="submit-button">
-            Sauvegarder
-          </Button>
+          <div className="etapes-container">
+            <h2>Étapes de la recette</h2>
+            <Button variant="secondary" onClick={ajouterEtape}>
+              Ajouter une étape
+            </Button>
+            {etapes.map((etape, index) => (
+              <div key={index} className="etape">
+                <Form.Group controlId={`etape-titre-${index}`}>
+                  <div className="label-titre-etape">
+                    <Form.Label className="labels">Titre de l'étape</Form.Label>
+                    <div className="div-supprimer-etape">
+                      <Button
+                        className="supprimer-etape-bouton"
+                        variant="danger"
+                        size="sm"
+                        onClick={() => supprimerEtape(index)}
+                      >
+                        <i
+                          className="bi-trash3-fill"
+                          style={{ color: "white" }}
+                        />
+                      </Button>
+                    </div>
+                  </div>
+                  <Form.Control
+                    type="text"
+                    maxLength={32}
+                    value={etape.titre}
+                    onChange={(e) =>
+                      modifierEtape(index, "titre", e.target.value)
+                    }
+                  />
+                </Form.Group>
+                <Form.Group
+                  className="texte-etape"
+                  controlId={`etape-texte-${index}`}
+                >
+                  <Form.Label className="labels">Texte de l'étape</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    value={etape.texte}
+                    maxLength={2048}
+                    onChange={(e) =>
+                      modifierEtape(index, "texte", e.target.value)
+                    }
+                  />
+                </Form.Group>
+              </div>
+            ))}
+          </div>
         </Form>
       </div>
     </div>

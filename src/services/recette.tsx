@@ -10,10 +10,11 @@ export interface Recette {
   introduction?: string | undefined;
   nbPersonnes?: number | undefined;
   tpsCuisson?: number | undefined;
-  temperature?:number | undefined;
+  temperature?: number | undefined;
   tpsPrepa?: number | undefined;
   proprietaire?: Utilisateur | undefined;
   categorie?: string;
+  etapes?: string;
   image?: Image | undefined;
 }
 
