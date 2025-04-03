@@ -1,5 +1,5 @@
 /* Styles pour la liste déroulante des résultats de recherche */
-.search-results-dropdown {
+.searchResultsDropdown {
     position: absolute;
     top: 100%;
     left:auto !important;
@@ -12,17 +12,17 @@
     background-color: white;
     width: calc(100% - 8px);
   }
-
   
   /* Styles pour chaque élément de résultat */
-  .search-results-dropdown .dropdown-item {
+  .searchResultsDropdown{
     display: flex;
     align-items: center;
     padding: 5px; /* Réduit la hauteur des lignes */
   }
+ 
   
   /* Styles pour l'image dans les résultats */
-  .search-result-image {
+  .searchResultsImage {
     width: 40px;
     height: 40px;
     margin-right: 10px;
@@ -30,14 +30,15 @@
   }
   
   /* Styles pour le texte dans les résultats */
-  .search-results-dropdown .dropdown-item strong {
+  .searchResultsDropdownRow {
     font-size: 1rem;
     color: #333;
+    display: flex;
+    align-items: center;
   }
   
-  .search-results-dropdown .dropdown-item p {
+  .searchResultsDropdown {
     font-size: 0.875rem;
     color: #666;
     margin: 0;
   }
-  

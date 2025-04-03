@@ -1,7 +1,7 @@
 // SearchBar.tsx
 import React, { ChangeEvent, FormEvent, useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
-import "./../styles/SearchBar.css";
+import styles from "./../styles/SearchBar.module.css";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import { recherche, ResultatRecherche } from "../services/recherche";
@@ -38,7 +38,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ resultatsPrecharges }) => {
       item.nom.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setResultats(results);
-    console.log("Résultats de la recherche :", results);
   };
 
   const performSearch = (searchQuery: string) => {
@@ -49,7 +48,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ resultatsPrecharges }) => {
       } else {
         setResultats([]);
       }
-      console.log("Résultats de la recherche :", results);
       navigate("resultats");
     });
   };
@@ -69,23 +67,22 @@ const SearchBar: React.FC<SearchBarProps> = ({ resultatsPrecharges }) => {
           onChange={handleSearchChange}
         />
         {resultats.length > 0 && (
-          <Dropdown.Menu show={true} className="search-results-dropdown">
+          <Dropdown.Menu show={true} className={styles.searchResultsDropdown}>
             {resultats.map((result) => (
               <Dropdown.Item
                 key={result.id}
                 href={`/${result.type}/${result.id}`}
-                className="search-results-dropdown-row"
+                className={styles.searchResultsDropdownRow}
               >
                 {result.image.path && (
                   <img
                     src={result.image.path}
                     alt={result.nom}
-                    className="search-result-image"
+                    className={styles.searchResultsImage}
                   />
                 )}
                 <div>
                   <strong>{result.nom}</strong>
-                  <p>{result.description}</p>
                 </div>
               </Dropdown.Item>
             ))}

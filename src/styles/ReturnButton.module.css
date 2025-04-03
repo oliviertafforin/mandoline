@@ -1,4 +1,4 @@
-  .return-button {
+  .bouton {
     margin: 10px;
     font-size: 14px;
     padding: 4px 10px;
@@ -8,7 +8,7 @@
     transition: 0.2s;
   }
   
-  .return-button:hover {
+  .bouton:hover {
     background-color: #343a40;
     color: white;
   }

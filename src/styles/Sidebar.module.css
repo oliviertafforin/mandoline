@@ -1,5 +1,5 @@
 /* Sidebar container */
-.sidebar {
+.sidebarClosed {
     position: fixed;
     top: 60px;
     right: -155px;
@@ -16,12 +16,24 @@
   }
   
   /* Open state */
-  .sidebar.open {
-    right: 0;
+  .sidebarOpen {
+    position: fixed;
+    top: 60px;
+    right: 0px;
+    width: 175px;
+    height: calc(100vh - 60px);
+    background: #f8f9fa;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease-in-out;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
   }
   
   /* Floating sidebar toggle button */
-  .sidebar-toggle {
+  .sidebarToggle {
     position: fixed;
     top: 50%;
     right: 5px;
@@ -41,13 +53,13 @@
   }
   
   /* Hover effect */
-  .sidebar-toggle:hover {
+  .sidebarToggle:hover {
     background-color: #0056b3;
-    transform: scale(1.1);
+    transform: scale(1.2);
   }
   
   /* Add button inside sidebar */
-  .add-button {
+  .addButton {
     width: 100%;
     margin: 10px 0;
     font-size: 14px;

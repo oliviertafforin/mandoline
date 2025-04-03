@@ -1,6 +1,6 @@
 import React, {  useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./../../styles/LoginPage.css";
+import styles from "./../../styles/LoginPage.module.css";
 import { login } from "../../services/utilisateur";
 import { useAuth } from "../utils/AuthContextType";
 
@@ -26,10 +26,10 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleLogin}>
+    <div className={styles.loginContainer}>
+      <form className={styles.loginForm} onSubmit={handleLogin}>
         <h2>Connexion</h2>
-        {error && <p className="error-message">{error}</p>}
+        {error && <p className={styles.errorMessage}>{error}</p>}
         <input
           type="text"
           placeholder="Pseudo"
@@ -46,7 +46,7 @@ const LoginPage: React.FC = () => {
         />
         <button type="submit">Se connecter</button>
       </form>
-      <button className="register-button" onClick={() => navigate("/register")}>
+      <button className={styles.registerButton} onClick={() => navigate("/register")}>
         S'inscrire
       </button>
     </div>

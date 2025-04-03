@@ -1,29 +1,18 @@
-.ingredient-card {
-  /* border: 1px solid #ccc;
-    border-radius: 8px; */
+.carteRecette {
   padding: 0px;
-  margin: 8px;
-  /* max-width: 300px; */
+  margin: 10px;
   width: 12rem;
-  /* text-align: center; */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   display: flex;
   justify-content: space-between;
-  height: 100%; /* Assure que la carte prend toute la hauteur disponible */
+  height: 100%;
   flex-direction: column;
-  height: 300px; /* Définissez une hauteur fixe pour la carte */
+  height: 300px;
   border-radius: 10px;
 }
 
-.ingredient-card__image {
-  width: 100%; /* Assure que l'image prend toute la largeur disponible */
-  border-radius: 8px 8px 0 0; /* Arrondir les coins supérieurs de l'image */
-  object-fit: cover;
-  aspect-ratio: 16 / 9;
-}
-
-.ingredient-card__title {
+.titre {
   font-size: 1.25rem;
   margin: 12px 0;
   color: black;
@@ -33,10 +22,15 @@
   transition: font-size 0.3s ease; /* Ajoute une transition pour un effet fluide */
 }
 
-.ingredient-card__title.adjusted {
-  font-size: 1rem; /* Taille de police réduite */
+.adjusted {
+  font-size: 1rem;/* Taille de police réduite */
 }
-.ingredient-card__description {
+
+.adjusted2 {
+  font-size: 0.75rem;/* Taille de police réduite */
+}
+
+.description {
   font-size: 0.9rem;
   color: #666;
   height: 60px; /* Hauteur fixe pour la description */
@@ -46,9 +40,16 @@
   -webkit-box-orient: vertical;
 }
 
-.ingredient-card__edit-button {
+.image {
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+  object-fit: cover;
+  aspect-ratio: 16 / 9;
+}
+
+.boutonEdition {
   position: absolute;
-  top: 140px;
+  top: 90px;
   right: -10px;
   width: 36px;
   height: 36px;
@@ -63,27 +64,18 @@
   justify-content: center;
   cursor: pointer;
   z-index: 1;
-  transition: background-color 0.3s ease;
-}
-.ingredient-card-container {
-  position: relative;
-  display: inline-block;
-}
-.ingredient-card__edit-button:hover {
-  background-color: #0056b3;
+  transition: all 0.2s ease-in-out;
 }
 
-.card-link {
+
+.boutonEdition:hover {
+  background-color: #0056b3;
+  transform: scale(1.2);
+}
+
+.link {
   cursor: pointer;
   height: 100%;
   text-decoration: none;
   color: white;
-}
-
-.ingredient-card__body {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 10px;
 }

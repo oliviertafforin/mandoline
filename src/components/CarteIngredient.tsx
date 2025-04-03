@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Ingredient } from "../services/ingredient";
-import "./../styles/CarteIngredient.css";
+import styles from "./../styles/CarteIngredient.module.css";
 import { Button, Card } from "react-bootstrap";
 import { NavLink } from "react-router";
 
@@ -10,36 +10,38 @@ interface CarteIngredientProps {
 
 const CarteIngredient: React.FC<CarteIngredientProps> = ({ ingredient }) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
-
+  const [styleTitre, setStyleTitre] = useState('');
   useEffect(() => {
     const titleElement = titleRef.current;
-    if (titleElement && titleElement.scrollWidth > titleElement.clientWidth) {
-      titleElement.classList.add("adjusted");
+    if (titleElement && titleElement.scrollWidth > titleElement.clientWidth * 1.25) {
+      setStyleTitre(styles.adjusted2);
+    }else if (titleElement && titleElement.scrollWidth > titleElement.clientWidth) {
+      setStyleTitre(styles.adjusted);
     } else if (titleElement) {
-      titleElement.classList.remove("adjusted");
+      setStyleTitre('');
     }
   }, [ingredient.nom]);
   
   return (
-    <Card className="ingredient-card">
+    <Card className={styles.carteIngredient}>
       <Button
-        className="ingredient-card__edit-button"
+        className={styles.boutonEdition}
         variant="primary"
         href={`/ingredients/${ingredient.id}/edit`}
       >
         <i className="bi-wrench" style={{ color: "white" }} />
       </Button>
-      <NavLink className="card-link" to={`/ingredients/${ingredient.id}`}>
+      <NavLink className={styles.link} to={`/ingredients/${ingredient.id}`}>
         <Card.Img
-          className="ingredient-card__image"
+          className={styles.image}
           variant="top"
           src={ingredient.image.path}
         />
-        <Card.Body>
-          <Card.Title className="ingredient-card__title" ref={titleRef}>
+        <Card.Body className={styles.body}>
+          <Card.Title className={`${styles.titre} ${styleTitre}`} ref={titleRef}>
             {ingredient.nom}
           </Card.Title>
-          <Card.Text className="ingredient-card__description">
+          <Card.Text className={styles.description}>
             Le {ingredient.nom} c'est bien
           </Card.Text>
         </Card.Body>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./../../styles/CoursesPage.css";
+import styles from "./../../styles/CoursesPage.module.css";
 
 interface ShoppingItem {
   id: number;
@@ -40,12 +40,11 @@ const CoursesPage: React.FC = () => {
       <button>Nouvel article</button>
       <button>Gérer les listes</button>
       <button>...</button>
-      <ul className="shopping-list">
+      <ul>
         {items.map((item) => (
-          <li key={item.id} className="shopping-item">
+          <li key={item.id}>
             {item.name} - {item.quantity}
             <button
-              className="remove-btn"
               onClick={() => handleRemoveItem(item.id)}
             >
               ✖
@@ -53,7 +52,7 @@ const CoursesPage: React.FC = () => {
           </li>
         ))}
       </ul>
-      <div className="shopping-form">
+      <div>
         <input
           type="text"
           placeholder="Nouvel article..."
@@ -68,7 +67,7 @@ const CoursesPage: React.FC = () => {
             setNewItem({ ...newItem, quantity: Number(e.target.value) })
           }
         />
-        <button className="add-btn" onClick={handleAddItem}>
+        <button onClick={handleAddItem}>
           Ajouter
         </button>
       </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // Import modern icons
-import "../styles/Sidebar.css";
+import styles from "../styles/Sidebar.module.css";
 
 const SidebarIngredient: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -11,22 +11,22 @@ const SidebarIngredient: React.FC = () => {
   return (
     <>
       {/* Floating Toggle Button */}
-      <button className="sidebar-toggle" onClick={() => setIsOpen(!isOpen)}>
+      <button className={styles.sidebarToggle} onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? <ChevronRight size={24} /> : <ChevronLeft size={24} />}
       </button>
       {/* Sidebar Container */}
-      <div className={`sidebar ${isOpen ? "open" : ""}`}>
+      <div className={isOpen ? styles.sidebarOpen : styles.sidebarClosed}>
         {/* Ajouter Button */}
         <Button
           variant="primary"
-          className="add-button"
+          className={styles.addButton}
           onClick={() => navigate("/add-ingredient")}
         >
           Nouvel ingrédient
         </Button>
 
         {/* Checkbox Fields */}
-        <div className="filters">
+        <div className={styles.filters}>
           <h4>Filtres</h4>
           <Form>
             <Form.Check type="checkbox" label="De saison" />

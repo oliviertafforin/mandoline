@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import "./../styles/ReturnButton.css";
+import styles from "./../styles/ReturnButton.module.css";
 
 interface ReturnButtonProps {
   label?: string;
@@ -12,6 +12,6 @@ const ReturnButton: React.FC<ReturnButtonProps> = ({ label = "← Retour", class
   const navigate = useNavigate();
 
   return (
-    <Button variant="outline-dark" className={`return-button ${className}`} onClick={() => navigate(-1)}> {label} </Button> ); };
+    <Button variant="outline-dark" className={`${styles.bouton} ${className}`} onClick={() => navigate(-1)}> {label} </Button> ); };
 
     export default ReturnButton;

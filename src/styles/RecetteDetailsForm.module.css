@@ -1,7 +1,3 @@
-.form-container {
-  margin-left: 10px;
-}
-
 label {
   display: block;
   margin: 0;
@@ -10,7 +6,7 @@ label {
   color: #0a0a0a;
 }
 
-.details-recette {
+.detailsRecette {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 1rem;
@@ -19,65 +15,65 @@ label {
 }
 
 @media screen and (max-width: 768px) {
-  .details-recette {
+  .detailsRecette {
     grid-template-columns: auto;
   }
 }
 
 @media screen and (max-width: 460px) {
-  .details-recette {
+  .detailsRecette {
     display: block;
   }
 }
 
-.details-recette .uploader {
+.detailsRecette .uploader {
   width: 17rem;
 }
 
 @media screen and (max-width: 1024px) {
-  .details-recette .uploader {
+  .detailsRecette .uploader {
     width: 23rem;
   }
 }
 
 @media screen and (max-width: 768px) {
-  .details-recette .uploader {
+  .detailsRecette .uploader {
     width: 27rem;
   }
 }
 
 @media screen and (max-width: 460px) {
-  .details-recette .uploader {
+  .detailsRecette .uploader {
     width: 100%;
     margin-bottom: 1rem;
   }
 }
 
-.details-base-recette-ligne {
+.ligneDetail {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
 }
 
-.formulaire-container {
+.container {
   max-width: 800px;
   margin: 0 auto;
 }
 
-.form-group {
+.formGroup {
   margin-bottom: 15px;
 }
 
-.form-group label {
+.formGroup label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
+.formGroup input,
+.formGroup textarea,
+.formGroup select {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
@@ -85,7 +81,7 @@ label {
   border-radius: 4px;
 }
 
-.form-group input.input-nombre {
+.formGroup input.inputNumerique {
   width: 70px;
   padding: 8px;
   margin-top: 5px;
@@ -99,16 +95,7 @@ label {
   gap: 10px;
 }
 
-.category-button {
-  background-color: #ff6b6b;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.label-titre-etape {
+.titre{
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 1rem;
@@ -117,22 +104,22 @@ label {
   justify-content: center;
 }
 
-.texte-etape {
-  margin-top: 0.5em;
-}
-
 .labels {
   margin: auto;
   font-weight: bold;
 }
 
-.div-supprimer-etape {
+.texteEtape {
+  margin-top: 0.5em;
+}
+
+div.supprimerEtape {
   align-items: flex-end;
   flex-direction: column;
   display: flex;
 }
 
-.supprimer-etape-bouton {
+.boutonSupprimerEtape {
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -147,11 +134,7 @@ label {
   transition: background-color 0.3s ease;
 }
 
-.category-button:hover {
-  background-color: #ff4d4d;
-}
-
-.submit-button {
+.submitButton {
   background-color: #4caf50;
   color: white;
   border: none;
@@ -163,11 +146,11 @@ label {
   margin-left: auto;
 }
 
-.submit-button:hover {
+.submitButton:hover {
   background-color: #45a049;
 }
 
-.icon-add-photo {
+.iconAddPhoto {
   padding: 0;
 }
 
@@ -177,7 +160,7 @@ label {
   position: relative;
 }
 
-.uploader_button {
+.uploaderButton {
   width: 100%;
   height: 100%;
   border: 1px dashed #ccc;
@@ -185,11 +168,11 @@ label {
   overflow: hidden;
 }
 
-.uploader_button[disabled] {
+.uploaderButton[disabled] {
   cursor: initial;
 }
 
-.uploader_placeholder {
+.uploaderButtonPlaceholder {
   width: 100%;
   height: 100%;
   display: flex;
@@ -199,23 +182,18 @@ label {
   color: #8d8d8d;
 }
 
-.uploader_placeholder:before {
+.uploaderPlaceholder:before {
   display: block;
   font-size: 6em;
   line-height: 0.8;
 }
 
-.uploader_image-preview {
+.previewImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.preview-image {
-  width: 100%;
-  object-fit: cover;
-  height: 100%;
-}
 
 .uploader_delete-btn {
   position: absolute;

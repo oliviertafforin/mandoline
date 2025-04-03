@@ -1,0 +1,93 @@
+.carteIngredient {
+  padding: 0px;
+  margin: 8px;
+  width: 12rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  flex-direction: column;
+  height: 300px;
+  border-radius: 10px;
+}
+
+.image {
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+  object-fit: cover;
+  aspect-ratio: 16 / 9;
+}
+
+.titre {
+  font-size: 1.25rem;
+  margin: 12px 0;
+  color: black;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: font-size 0.3s ease; /* Ajoute une transition pour un effet fluide */
+}
+
+.adjusted {
+  font-size: 1rem;/* Taille de police réduite */
+}
+
+.adjusted2 {
+  font-size: 0.75rem;/* Taille de police réduite */
+}
+
+.description {
+  font-size: 0.9rem;
+  color: #666;
+  height: 60px; /* Hauteur fixe pour la description */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.boutonEdition {
+  position: absolute;
+  top: 90px;
+  right: -10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #d6d1ba;
+  color: white;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1;
+  transition: all 0.2s ease-in-out;
+}
+
+.boutonEdition:hover {
+  background-color: #0056b3;
+  transform: scale(1.2);
+}
+
+.container {
+  position: relative;
+  display: inline-block;
+}
+
+.link {
+  cursor: pointer;
+  height: 100%;
+  text-decoration: none;
+  color: white;
+}
+
+.carteIngredientBody {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchRecettes, Recette } from "../services/recette";
 import CarteRecette from "./CarteRecette";
 import {  Row } from "react-bootstrap";
-import "./../styles/ListeCarteRecette.css";
+import styles from "./../styles/ListeCarteRecette.module.css";
 import Sidebar from "./SidebarRecette";
 
 function ListeCarteRecette() {
@@ -18,9 +18,9 @@ function ListeCarteRecette() {
   }, []);
 
   return (
-    <div className="recette-list">
+    <div className={styles.listeRecettes}>
       <Sidebar />
-      <Row xs={1} md={2} className="row-card">
+      <Row xs={1} md={2}>
         {RecetteList?.map((recette) => (
           <CarteRecette key={recette.id} recette={recette} />
         ))}

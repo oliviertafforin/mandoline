@@ -2,7 +2,7 @@ import React, { useContext, useCallback } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import "./../styles/Navigation.css";
+import styles from "./../styles/Navigation.module.css";
 import { AuthContext } from "./utils/AuthContextType";
 import SearchBar from "./SearchBar";
 import { ResultatRecherche } from "../services/recherche";
@@ -27,7 +27,7 @@ const Navigation: React.FC<NavigationProps> = ({ resultatsPrecharges }) => {
   );
 
   return (
-    <Navbar expand="lg">
+    <Navbar expand="lg" className={styles.navbar}>
       <Container fluid>
         <Navbar.Brand href="/">Mandoline</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

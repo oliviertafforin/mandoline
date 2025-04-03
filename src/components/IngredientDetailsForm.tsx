@@ -4,7 +4,7 @@ import {
   Ingredient,
   updateIngredient,
 } from "../services/ingredient";
-import "./../styles/IngredientDetailsForm.css";
+import styles from "./../styles/IngredientDetailsForm.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -79,7 +79,7 @@ function IngredientDetailsForm() {
   }
 
   return (
-    <div className="form-container">
+    <div className={styles.container}>
       <ReturnButton label="← Retour" />
       <h1>{ingredient.nom}</h1>
       <Form onSubmit={handleUpdateIngredient}>

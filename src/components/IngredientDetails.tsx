@@ -7,7 +7,7 @@ import {
   getIngredientUtilisateur,
   IngredientUtilisateur,
 } from "../services/ingredient_utilisateur";
-import "./../styles/IngredientDetails.css";
+import styles from "./../styles/IngredientDetails.module.css";
 import { useParams } from "react-router-dom";
 
 function IngredientDetails() {
@@ -43,11 +43,11 @@ function IngredientDetails() {
   }, [id]);
 
   return (
-    <div className="ingredient">
+    <div className={styles.ingredient}>
         <ReturnButton/>
       <h1>{ingredient?.nom}</h1>
       <Image
-        className="icone-ingredient"
+        className={styles.iconeIngredient}
         src={ingredient?.image.path}
         roundedCircle
       />

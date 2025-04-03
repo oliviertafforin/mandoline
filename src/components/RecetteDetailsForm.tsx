@@ -2,11 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   Categorie,
   createRecette,
+  Etape,
   getRecette,
   Recette,
   updateRecette,
 } from "../services/recette";
-import "./../styles/RecetteDetailsForm.css";
+import styles from "./../styles/RecetteDetailsForm.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -19,12 +20,6 @@ import {
   updateImage,
   uploadImage,
 } from "../services/image";
-
-// Définir une interface pour les étapes
-interface Etape {
-  titre: string;
-  texte: string;
-}
 
 function RecetteDetailsForm() {
   const { id } = useParams();
@@ -158,13 +153,13 @@ function RecetteDetailsForm() {
   return (
     <div>
       <ReturnButton label="← Retour" />
-      <div className="formulaire-container">
-        <div className="label-titre-etape">
+      <div className={styles.container}>
+        <div className={styles.titre}>
           <h1>{id ? "Modifier la recette" : "Écrire une nouvelle recette"}</h1>
           <Button
             type="submit"
             variant="primary"
-            className="submit-button"
+            className={styles.submitButton}
             form="formulaireRecette"
           >
             Sauvegarder
@@ -177,7 +172,7 @@ function RecetteDetailsForm() {
           cuistot en herbe puisse réaliser votre recette sans problème !
         </p>
         <Form id="formulaireRecette" onSubmit={sauvegarderRecette}>
-          <Form.Group className="form-group" controlId="nomRecette">
+          <Form.Group className={styles.formGroup} controlId="nomRecette">
             <Form.Label>Nom de la recette</Form.Label>
             <Form.Control
               type="text"
@@ -187,7 +182,7 @@ function RecetteDetailsForm() {
             />
           </Form.Group>
 
-          <Form.Group className="form-group" controlId="introduction">
+          <Form.Group className={styles.formGroup} controlId="introduction">
             <Form.Label>Introduction</Form.Label>
             <Form.Control
               as="textarea"
@@ -198,24 +193,27 @@ function RecetteDetailsForm() {
             />
           </Form.Group>
 
-          <div className="form-group details-recette">
-            <div className="uploader">
+          <div className={`${styles.formGroup} ${styles.detailsRecette}`}>
+            <div className={styles.uploader}>
               <button
                 type="button"
-                className="uploader_placeholder uploader_button icon-add-photo"
+                className={`${styles.uploaderPlaceholder} ${styles.uploaderButton} ${styles.iconAddPhoto}`}
                 onClick={() => handleClick()}
               >
                 {image ? (
-                  <img src={image} alt="Uploaded" className="preview-image" />
+                  <img
+                    src={image}
+                    alt="Uploaded"
+                    className={styles.previewImage}
+                  />
                 ) : (
-                  <div className="uploader_placeholder icon-add-photo">
+                  <div className={`${styles.uploaderPlaceholder} ${styles.iconAddPhoto}`}>
                     Ajouter une photo
                   </div>
                 )}
               </button>
               <input
                 ref={fileRef}
-                className="display-hidden"
                 type="file"
                 accept=".png,.jpg,.jpeg"
                 id="recipeImage"
@@ -225,14 +223,14 @@ function RecetteDetailsForm() {
             </div>
             <div>
               <Form.Group
-                className="details-base-recette-ligne"
+                className={styles.ligneDetail}
                 controlId="tempsPreparation"
               >
                 <Form.Label>Temps de préparation (min.)</Form.Label>
 
                 <Form.Control
                   type="text"
-                  className="input-nombre"
+                  className={styles.inputNumerique}
                   inputMode="numeric"
                   maxLength={3} // Limite à 3 caractères
                   value={recette.tpsPrepa || ""}
@@ -250,13 +248,13 @@ function RecetteDetailsForm() {
               </Form.Group>
 
               <Form.Group
-                className="details-base-recette-ligne"
+                className={styles.ligneDetail}
                 controlId="tempsCuisson"
               >
                 <Form.Label>Temps de cuisson (min.)</Form.Label>
 
                 <Form.Control
-                  className="input-nombre"
+                  className={styles.inputNumerique}
                   type="text"
                   inputMode="numeric"
                   maxLength={3} // Limite à 3 caractères
@@ -275,13 +273,13 @@ function RecetteDetailsForm() {
               </Form.Group>
 
               <Form.Group
-                className="details-base-recette-ligne"
+                className={styles.ligneDetail}
                 controlId="nombrePersonnes"
               >
                 <Form.Label>Nombre de personnes</Form.Label>
                 <Form.Control
                   type="text"
-                  className="input-nombre"
+                  className={styles.inputNumerique}
                   inputMode="numeric"
                   maxLength={2} // Limite à 2 caractères
                   value={recette.nbPersonnes || ""}
@@ -300,7 +298,7 @@ function RecetteDetailsForm() {
 
               <Form.Group
                 controlId="categorySelect"
-                className="details-base-recette-ligne"
+                className={styles.ligneDetail}
               >
                 <Form.Label>Catégorie</Form.Label>
                 <Form.Select
@@ -320,19 +318,19 @@ function RecetteDetailsForm() {
             </div>
           </div>
 
-          <div className="etapes-container">
+          <div>
             <h2>Étapes de la recette</h2>
             <Button variant="secondary" onClick={ajouterEtape}>
               Ajouter une étape
             </Button>
             {etapes.map((etape, index) => (
-              <div key={index} className="etape">
+              <div key={index}>
                 <Form.Group controlId={`etape-titre-${index}`}>
-                  <div className="label-titre-etape">
-                    <Form.Label className="labels">Titre de l'étape</Form.Label>
-                    <div className="div-supprimer-etape">
+                  <div className={styles.titre}>
+                    <Form.Label className={styles.labels}>Titre de l'étape</Form.Label>
+                    <div className={styles.supprimerEtape}>
                       <Button
-                        className="supprimer-etape-bouton"
+                        className={styles.boutonSupprimerEtape}
                         variant="danger"
                         size="sm"
                         onClick={() => supprimerEtape(index)}
@@ -354,10 +352,10 @@ function RecetteDetailsForm() {
                   />
                 </Form.Group>
                 <Form.Group
-                  className="texte-etape"
+                  className={styles.texteEtape}
                   controlId={`etape-texte-${index}`}
                 >
-                  <Form.Label className="labels">Texte de l'étape</Form.Label>
+                  <Form.Label className={styles.labels}>Texte de l'étape</Form.Label>
                   <Form.Control
                     as="textarea"
                     value={etape.texte}
@@ -374,20 +372,5 @@ function RecetteDetailsForm() {
       </div>
     </div>
   );
-
-  // return (
-  //   <div className="form-container">
-  //     <ReturnButton label="← Retour" />
-  //     <h1>{recette?.nom}</h1>
-  //     <Form onSubmit={updateRecette}>
-  //       <Form.Group className="mb-3" controlId="formBasicCheckbox">
-  //         <Form.Check name="avoid" type="checkbox" label="Éviter la recette" />
-  //       </Form.Group>
-  //       <Button variant="primary" type="submit">
-  //         Submit
-  //       </Button>
-  //     </Form>
-  //   </div>
-  // );
 }
 export default RecetteDetailsForm;

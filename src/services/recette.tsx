@@ -27,6 +27,13 @@ export enum Categorie {
   Desserts = "Desserts",
 }
 
+// Définir une interface pour les étapes
+export interface Etape {
+  titre: string;
+  texte: string;
+}
+
+
 // Fetch all recettes
 export const fetchRecettes = async () => {
   const response = await httpClient
