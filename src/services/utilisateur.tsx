@@ -1,10 +1,15 @@
 // src/api/utilisateur.tsx
 import { toast } from "react-toastify";
+import { Image } from "./image";
 import { httpClient } from "./httpClient";
+import { Recette } from "./recette";
 
 export interface Utilisateur {
-  id?: string | null;
-  pseudo: string | null;
+  id?: string;
+  role? : string | undefined;
+  pseudo?: string | undefined;
+  avatar? : Image | undefined;
+  recettesLikees? : Recette[] | undefined;
 }
 
 // Fetch all utilisateurs
@@ -33,6 +38,24 @@ export const getUtilisateur = async (id: string) => {
     .get<Utilisateur>(`/utilisateur/${id}`)
     .catch((error) => {
       console.error("Erreur récupération de l'utilisateur : " + error);
+    });
+  return response?.data;
+};
+
+export const likeRecette = async (id: string, idRecette: string) => {
+  const response = await httpClient
+    .post<void>(`/utilisateur/${id}/recettes-preferees/${idRecette}`)
+    .catch((error) => {
+      console.error("Erreur like recette : " + error);
+    });
+  return response?.data;
+};
+
+export const getRecetteLikees = async (id: string) => {
+  const response = await httpClient
+    .get<Recette[]>(`/utilisateur/${id}/recettes-preferees`)
+    .catch((error) => {
+      console.error("Erreur récupération recettes likées : " + error);
     });
   return response?.data;
 };

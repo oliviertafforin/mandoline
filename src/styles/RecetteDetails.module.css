@@ -1,0 +1,52 @@
+  .detailsRecette {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+    justify-content: center;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .detailsRecette {
+      grid-template-columns: auto;
+    }
+  }
+  
+  @media screen and (max-width: 460px) {
+    .detailsRecette {
+      display: block;
+    }
+  }
+  
+  .ligneDetail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .formGroup {
+    margin-bottom: 15px;
+  }
+  
+  .categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .texteEtape {
+    margin-top: 0.5em;
+  }
+
+  .previewImage {
+    height: 17rem;
+    object-fit: cover;
+    aspect-ratio: 16/9;
+    position: relative;
+  }

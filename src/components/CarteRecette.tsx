@@ -4,15 +4,24 @@ import styles from "./../styles/CarteRecette.module.css";
 import { Button, Card } from "react-bootstrap";
 import { NavLink } from "react-router";
 import { download } from "../services/image";
+import { useAuth } from "./utils/AuthContextType";
+import { likeRecette, Utilisateur } from "../services/utilisateur";
 
 interface CarteRecetteProps {
   recette: Recette;
+  utilisateur: Utilisateur;
 }
 
-const CarteRecette: React.FC<CarteRecetteProps> = ({ recette }) => {
+const CarteRecette: React.FC<CarteRecetteProps> = ({
+  recette,
+  utilisateur,
+}) => {
   const [imageSrc, setImageSrc] = useState("");
+  const auth = useAuth();
+
   const titleRef = useRef<HTMLHeadingElement>(null);
   const [styleTitre, setStyleTitre] = useState("");
+  const [isLiked, setIsLiked] = useState<boolean>(false);
 
   useEffect(() => {
     const titleElement = titleRef.current;
@@ -29,7 +38,16 @@ const CarteRecette: React.FC<CarteRecetteProps> = ({ recette }) => {
     } else if (titleElement) {
       setStyleTitre("");
     }
-  }, [recette.nom]);
+  }, []);
+
+  useEffect(() => {
+    if (utilisateur?.recettesLikees) {
+      const likedRecette = utilisateur.recettesLikees.some(
+        (recetteLikee) => recetteLikee.id === recette.id
+      );
+      setIsLiked(likedRecette);
+    }
+  }, [recette.id, utilisateur?.recettesLikees])
 
   useEffect(() => {
     if (recette.image && recette.image?.id) {
@@ -41,6 +59,13 @@ const CarteRecette: React.FC<CarteRecetteProps> = ({ recette }) => {
     }
   }, [recette.image]);
 
+  function handleLike(event: React.MouseEvent): void {
+    if (auth.id && recette.id) {
+      likeRecette(auth.id, recette.id);
+      setIsLiked(!isLiked);
+    }
+  }
+
   return (
     <Card className={styles.carteRecette}>
       <Button
@@ -49,6 +74,18 @@ const CarteRecette: React.FC<CarteRecetteProps> = ({ recette }) => {
         href={`/recettes/${recette.id}/edit`}
       >
         <i className="bi-wrench" style={{ color: "white" }} />
+      </Button>
+      <Button
+        className={`${styles.boutonLike} ${
+          isLiked ? styles.recetteLikee : styles.recetteNonLikee
+        }`}
+        variant="primary"
+        onClick={handleLike}
+      >
+        <i
+          className={`${isLiked ? "bi-heart-fill" : "bi-heart"}`}
+          style={{ color: "white" }}
+        />
       </Button>
       <NavLink className={styles.link} to={`/recettes/${recette.id}`}>
         {recette?.image ? (

@@ -37,7 +37,6 @@ function IngredientDetails() {
         } else {
           setIngredientUtilisateur(null);
         }
-        console.log(data);
       });
     }
   }, [id]);
@@ -46,11 +45,7 @@ function IngredientDetails() {
     <div className={styles.ingredient}>
         <ReturnButton/>
       <h1>{ingredient?.nom}</h1>
-      <Image
-        className={styles.iconeIngredient}
-        src={ingredient?.image.path}
-        roundedCircle
-      />
+      
       <ul>
         <li className="item">
           {ingredientUtilisateur?.eviter

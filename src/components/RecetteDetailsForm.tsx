@@ -46,7 +46,6 @@ function RecetteDetailsForm() {
     if (id) {
       getRecette(id).then((data) => {
         if (data) {
-          console.log(data);
           setRecette(data);
           if (data.image && data.image?.id) {
             download(data.image?.id).then((image) => {
@@ -132,7 +131,6 @@ function RecetteDetailsForm() {
 
   const handleClick = () => {
     if (fileRef.current) {
-      console.log(fileRef.current);
       fileRef.current.click();
     }
   };
@@ -149,6 +147,10 @@ function RecetteDetailsForm() {
       setSelectedFile(file);
     }
   };
+
+  // if (!recette) {
+  //   return <div>Chargement...</div>;
+  // }
 
   return (
     <div>

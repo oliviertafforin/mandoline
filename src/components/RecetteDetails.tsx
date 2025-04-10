@@ -45,15 +45,15 @@ function RecetteDetails() {
   return (
     <div>
       <ReturnButton label="← Retour" />
-      <div className="formulaire-container">
+      <div className={styles.container}>
 
-        <div className="recette-details">
+        <div className={styles.formGroup}>
           <h2>{recette.nom}</h2>
           <p>{recette.introduction}</p>
 
-          <div className="details-recette">
+          <div className={styles.formGroup}>
             {image && (
-              <img src={image} alt="Recipe" className="preview-image" />
+              <img src={image} alt="Recipe" className={styles.previewImage} />
             )}
             <div>
               <p>

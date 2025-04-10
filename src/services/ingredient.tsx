@@ -6,7 +6,7 @@ import { Image } from "./image";
 export interface Ingredient {
   id?: string;
   nom : string;
-  image: Image;
+  image?: Image | undefined;
 }
 
 // Fetch all ingredients
