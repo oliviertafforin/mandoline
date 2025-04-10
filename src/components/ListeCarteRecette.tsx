@@ -17,7 +17,7 @@ function ListeCarteRecette() {
   const auth = useAuth();
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const pageSize = 6; // Ou 10 selon ton choix
+  const pageSize = 6;
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {

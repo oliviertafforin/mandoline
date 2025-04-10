@@ -20,6 +20,16 @@ export const fetchIngredients = async () => {
   return response?.data;
 };
 
+// Fetch all recettes
+export const fetchIngredientsPagines = async (page: number, size: number) => {
+  const response = await httpClient
+    .get(`/ingredient/pagination?page=${page}&size=${size}`)
+    .catch((error) => {
+      console.error("Erreur récupération des ingrédients : " + error);
+    });
+  return response?.data;
+};
+
 export const getIngredient = async (id: string) => {
   const response = await httpClient
     .get<Ingredient>(`/ingredient/${id}`)
