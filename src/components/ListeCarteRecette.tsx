@@ -15,25 +15,35 @@ function ListeCarteRecette() {
   const [recetteList, setRecetteList] = useState<Recette[] | null>([]);
   const [utilisateur, setUtilisateur] = useState<Utilisateur>();
   const auth = useAuth();
-  const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(1);
-  const pageSize = 6;
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [page, setPage] = useState(0); //n° de page actuel
+  const [totalPages, setTotalPages] = useState(1); //nb total de pages pour la recherche
+  const pageSize = 10; //nb éléments par page
+  const [isLoading, setIsLoading] = useState<boolean>(true); //détermine si chargement en cours
+  const [sortBy, setSortBy] = useState<string>("nom"); //nom du champ à trier
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc"); //direction du tri
+  const [filtreNom, setFiltreNom] = useState<string>(""); //champ de filtre par nom
+  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null); //id timeout pour le filtrage pâr nom
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+
+  const handleFiltreNomChange = (value: string) => {
+    setFiltreNom(value);
+
+    if (timer) {
+      clearTimeout(timer);
+    }
+
+    const newTimeout = setTimeout(() => {
+      setPage(0);
+      loadRecettes(value, sortBy, sortDir);
+    }, 500);
+
+    setTimer(newTimeout);
+  };
 
   useEffect(() => {
-    const loadRecettes = async () => {
-      setIsLoading(true);
-      const data = await fetchRecettes(page, pageSize);
-      if (data) {
-        setRecetteList(data.content);
-        setTotalPages(data.totalPages);
-      } else {
-        setRecetteList([]);
-      }
-      setIsLoading(false);
-    };
-    loadRecettes();
-  }, [page]);
+    loadRecettes(filtreNom, sortBy, sortDir);
+  }, [page, sortBy, sortDir, selectedCategories]);
 
   useEffect(() => {
     async function loadUtilisateurComplet() {
@@ -46,9 +56,42 @@ function ListeCarteRecette() {
     loadUtilisateurComplet();
   }, [auth.id]);
 
+  const loadRecettes = async (
+    nom: string,
+    sortField: string,
+    sortDirection: "asc" | "desc"
+  ) => {
+    setIsLoading(true);
+    const data = await fetchRecettes(
+      page,
+      pageSize,
+      sortField,
+      sortDirection,
+     
+      selectedCategories,
+      nom
+    );
+    if (data) {
+      setRecetteList(data.content);
+      setTotalPages(data.totalPages);
+    } else {
+      setRecetteList([]);
+    }
+    setIsLoading(false);
+  };
+
   return (
     <div className={styles.listeRecettes}>
-      <Sidebar />
+      <Sidebar
+        filtreNom={filtreNom}
+        onFiltreNomChange={handleFiltreNomChange}
+        onSortByChange={setSortBy}
+        onSortDirChange={setSortDir}
+        sortBy={sortBy}
+        sortDir={sortDir}
+        selectedCategories={selectedCategories}
+        setSelectedCategories={setSelectedCategories}
+      />
       {isLoading ? (
         <div
           className="d-flex justify-content-center align-items-center"
@@ -69,7 +112,7 @@ function ListeCarteRecette() {
           )}
         </Row>
       )}
-      <Pagination className="justify-content-center mt-4">
+      <Pagination className="justify-content-center flex-wrap">
         <Pagination.First onClick={() => setPage(0)} disabled={page === 0} />
         <Pagination.Prev
           onClick={() => setPage(page - 1)}

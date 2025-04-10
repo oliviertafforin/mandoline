@@ -34,9 +34,28 @@ export interface Etape {
 }
 
 // Fetch all recettes
-export const fetchRecettes = async (page: number, size: number) => {
+export const fetchRecettes = async (
+  page: number,
+  size: number,
+  sortBy: string,
+  sortDir: string,
+  categories: string[] = [],
+  filtreNom?: string,
+  
+) => {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    size: size.toString(),
+    sort: `${sortBy},${sortDir}`,
+  });
+  if (filtreNom) {
+    params.append("nom", filtreNom);
+  }
+  
+  categories.forEach((cat) => params.append("criteres", cat));
+
   const response = await httpClient
-    .get(`/recette/pagination?page=${page}&size=${size}`)
+  .get(`/recette/pagination?${params.toString()}`)
     .catch((error) => {
       console.error("Erreur récupération des recettes : " + error);
     });
