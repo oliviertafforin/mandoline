@@ -33,11 +33,10 @@ export interface Etape {
   texte: string;
 }
 
-
 // Fetch all recettes
-export const fetchRecettes = async () => {
+export const fetchRecettes = async (page: number, size: number) => {
   const response = await httpClient
-    .get<Recette[]>(`/recette`)
+    .get(`/recette/pagination?page=${page}&size=${size}`)
     .catch((error) => {
       console.error("Erreur récupération des recettes : " + error);
     });

@@ -39,16 +39,6 @@ const SidebarRecette: React.FC = () => {
             <Form.Check type="checkbox" label="Plats" />
             <Form.Check type="checkbox" label="Desserts" />
             <Form.Check type="checkbox" label="Pas chères" />
-            <Form.Check type="checkbox" label="Option 1" />
-            <Form.Check type="checkbox" label="Option 2" />
-            <Form.Check type="checkbox" label="Option 3" />
-            <Form.Check type="checkbox" label="Option 4" />
-            <Form.Check type="checkbox" label="Option 5" />
-            <Form.Check type="checkbox" label="Option 1" />
-            <Form.Check type="checkbox" label="Option 2" />
-            <Form.Check type="checkbox" label="Option 3" />
-            <Form.Check type="checkbox" label="Option 4" />
-            <Form.Check type="checkbox" label="Option 5" />
           </Form>
         </div>
       </div>

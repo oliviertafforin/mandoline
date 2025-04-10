@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchRecettes, Recette } from "../services/recette";
 import CarteRecette from "./CarteRecette";
-import { Row } from "react-bootstrap";
+import { Pagination, Row, Spinner } from "react-bootstrap";
 import styles from "./../styles/ListeCarteRecette.module.css";
 import Sidebar from "./SidebarRecette";
 import {
@@ -12,23 +12,28 @@ import {
 import { useAuth } from "./utils/AuthContextType";
 
 function ListeCarteRecette() {
-  const [RecetteList, setRecetteList] = useState<Recette[] | null>([]);
+  const [recetteList, setRecetteList] = useState<Recette[] | null>([]);
   const [utilisateur, setUtilisateur] = useState<Utilisateur>();
   const auth = useAuth();
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const pageSize = 6; // Ou 10 selon ton choix
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   useEffect(() => {
-    fetchRecettes().then((data) => {
+    const loadRecettes = async () => {
+      setIsLoading(true);
+      const data = await fetchRecettes(page, pageSize);
       if (data) {
-        setRecetteList(data);
+        setRecetteList(data.content);
+        setTotalPages(data.totalPages);
       } else {
         setRecetteList([]);
       }
-    });
-    if (auth.id) {
-      getUtilisateur(auth.id).then((user) => {
-        setUtilisateur(user);
-      });
-    }
-  }, [auth.id]);
+      setIsLoading(false);
+    };
+    loadRecettes();
+  }, [page]);
 
   useEffect(() => {
     async function loadUtilisateurComplet() {
@@ -44,17 +49,50 @@ function ListeCarteRecette() {
   return (
     <div className={styles.listeRecettes}>
       <Sidebar />
-      <Row xs={1} md={2}>
-      {RecetteList?.map((recette) => (
-        utilisateur ? (
-          <CarteRecette
-            key={recette.id}
-            recette={recette}
-            utilisateur={utilisateur}
-          />
-        ) : null
-      ))}
-      </Row>
+      {isLoading ? (
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ minHeight: "200px" }}
+        >
+          <Spinner animation="border" variant="primary" role="status" />
+        </div>
+      ) : (
+        <Row xs={1} md={2}>
+          {recetteList?.map((recette) =>
+            utilisateur ? (
+              <CarteRecette
+                key={recette.id}
+                recette={recette}
+                utilisateur={utilisateur}
+              />
+            ) : null
+          )}
+        </Row>
+      )}
+      <Pagination className="justify-content-center mt-4">
+        <Pagination.First onClick={() => setPage(0)} disabled={page === 0} />
+        <Pagination.Prev
+          onClick={() => setPage(page - 1)}
+          disabled={page === 0}
+        />
+        {[...Array(totalPages)].map((_, index) => (
+          <Pagination.Item
+            key={index}
+            active={index === page}
+            onClick={() => setPage(index)}
+          >
+            {index + 1}
+          </Pagination.Item>
+        ))}
+        <Pagination.Next
+          onClick={() => setPage(page + 1)}
+          disabled={page === totalPages - 1}
+        />
+        <Pagination.Last
+          onClick={() => setPage(totalPages - 1)}
+          disabled={page === totalPages - 1}
+        />
+      </Pagination>
     </div>
   );
 }
