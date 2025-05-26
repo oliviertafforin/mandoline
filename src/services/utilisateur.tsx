@@ -35,7 +35,7 @@ export const login = async (pseudo: string, mdp: string) => {
 
 export const getUtilisateur = async (id: string) => {
   const response = await httpClient
-    .get<Utilisateur>(`/utilisateur/${id}`)
+    .get<Utilisateur>(`/utilisateurs/${id}`)
     .catch((error) => {
       console.error("Erreur récupération de l'utilisateur : " + error);
     });
@@ -44,7 +44,7 @@ export const getUtilisateur = async (id: string) => {
 
 export const likeRecette = async (id: string, idRecette: string) => {
   const response = await httpClient
-    .post<void>(`/utilisateur/${id}/recettes-preferees/${idRecette}`)
+    .post<void>(`/utilisateurs/${id}/recettes-preferees/${idRecette}`)
     .catch((error) => {
       console.error("Erreur like recette : " + error);
     });
@@ -53,7 +53,7 @@ export const likeRecette = async (id: string, idRecette: string) => {
 
 export const getRecetteLikees = async (id: string) => {
   const response = await httpClient
-    .get<Recette[]>(`/utilisateur/${id}/recettes-preferees`)
+    .get<Recette[]>(`/utilisateurs/${id}/recettes-preferees`)
     .catch((error) => {
       console.error("Erreur récupération recettes likées : " + error);
     });
@@ -63,7 +63,7 @@ export const getRecetteLikees = async (id: string) => {
 // Create a new Utilisateur
 export const createUtilisateur = async (data: Utilisateur) => {
   const response = await httpClient
-    .post<Utilisateur>("/utilisateur", data)
+    .post<Utilisateur>("/utilisateurs", data)
     .catch((error) => {
       console.error("Erreur création de l'utilisateur : " + error);
     });
@@ -76,7 +76,7 @@ export const updateUtilisateur = async (
   data: Partial<Utilisateur>
 ) => {
   const response = await httpClient
-    .put<Utilisateur>(`/utilisateur/${id}`, data)
+    .put<Utilisateur>(`/utilisateurs/${id}`, data)
     .catch((error) => {
       console.error("Erreur màj de l'utilisateur : " + error);
     });
@@ -86,7 +86,7 @@ export const updateUtilisateur = async (
 // Delete a utilisateur
 export const deleteUtilisateur = async (id: number) => {
   const response = await httpClient
-    .delete<void>(`/utilisateur/${id}`)
+    .delete<void>(`/utilisateurs/${id}`)
     .catch((error) => {
       console.error("Erreur suppression de l'utilisateur : " + error);
     });

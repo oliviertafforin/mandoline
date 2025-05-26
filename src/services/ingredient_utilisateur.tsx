@@ -20,7 +20,7 @@ export const getIngredientUtilisateur = async (
 ) => {
   const response = await httpClient
     .get<IngredientUtilisateur>(
-      `/ingredient/${idIngredient}/utilisateur/${idUtilisateur}`
+      `/utilisateurs/${idUtilisateur}/ingredients/${idIngredient}`
     )
     .catch((error) => {
       console.error(
@@ -43,7 +43,7 @@ export const getIngredientUtilisateur = async (
 // Update an existing ingredient
 export const updateIngredientUtilisateur = async (idIngredient:string, idUtilisateur: string, data: Partial<IngredientUtilisateur>) => {
   const response = await httpClient
-    .put<IngredientUtilisateur>(`/ingredient/${idIngredient}/utilisateur/${idUtilisateur}`, data)
+    .put<IngredientUtilisateur>(`/utilisateurs/${idUtilisateur}/ingredients/${idIngredient}`, data)
     .catch((error) => {
       console.error("Erreur màj de l'ingredient de l'utilisateur : " + error);
     });

@@ -27,6 +27,8 @@ export enum Categorie {
   Desserts = "Desserts",
 }
 
+const requestMapping = "/recettes";
+
 // Définir une interface pour les étapes
 export interface Etape {
   titre: string;
@@ -55,7 +57,7 @@ export const fetchRecettes = async (
   categories.forEach((cat) => params.append("criteres", cat));
 
   const response = await httpClient
-  .get(`/recette/pagination?${params.toString()}`)
+  .get(requestMapping+`?${params.toString()}`)
     .catch((error) => {
       console.error("Erreur récupération des recettes : " + error);
     });
@@ -64,7 +66,7 @@ export const fetchRecettes = async (
 
 export const getRecette = async (id: string) => {
   const response = await httpClient
-    .get<Recette>(`/recette/${id}`)
+    .get<Recette>(requestMapping+`/${id}`)
     .catch((error) => {
       console.error("Erreur récupération de la recette : " + error);
     });
@@ -74,7 +76,7 @@ export const getRecette = async (id: string) => {
 // Create a new recette
 export const createRecette = async (data: Recette) => {
   const response = await httpClient
-    .post<Recette>("/recette", data)
+    .post<Recette>(requestMapping, data)
     .catch((error) => {
       console.error("Erreur création de la recette : " + error);
     });
@@ -84,7 +86,7 @@ export const createRecette = async (data: Recette) => {
 // Update an existing recette
 export const updateRecette = async (id: string, data: Partial<Recette>) => {
   const response = await httpClient
-    .put<Recette>(`/recette/${id}`, data)
+    .put<Recette>(requestMapping+`/${id}`, data)
     .catch((error) => {
       console.error("Erreur màj de la recette : " + error);
     });
@@ -94,7 +96,7 @@ export const updateRecette = async (id: string, data: Partial<Recette>) => {
 // Delete a recette
 export const deleteRecette = async (id: number) => {
   const response = await httpClient
-    .delete<void>(`/recette/${id}`)
+    .delete<void>(requestMapping+`/${id}`)
     .catch((error) => {
       console.error("Erreur suppression de la recette : " + error);
     });

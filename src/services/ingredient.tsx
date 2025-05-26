@@ -5,25 +5,27 @@ import { Image } from "./image";
 // Define the type for a ingredient
 export interface Ingredient {
   id?: string;
-  nom : string;
+  nom: string;
   image?: Image | undefined;
 }
+
+const requestMapping = "/ingredients";
 
 // Fetch all ingredients
 export const fetchIngredients = async () => {
   const response = await httpClient
-    .get<Ingredient[]>(`/ingredient`)
+    .get<Ingredient[]>(requestMapping + `/all`)
     .catch((error) => {
       console.error("Erreur récupération des ingredients : " + error);
     });
-    
+
   return response?.data;
 };
 
 // Fetch all recettes
 export const fetchIngredientsPagines = async (page: number, size: number) => {
   const response = await httpClient
-    .get(`/ingredient/pagination?page=${page}&size=${size}`)
+    .get(requestMapping + `?page=${page}&size=${size}`)
     .catch((error) => {
       console.error("Erreur récupération des ingrédients : " + error);
     });
@@ -32,7 +34,7 @@ export const fetchIngredientsPagines = async (page: number, size: number) => {
 
 export const getIngredient = async (id: string) => {
   const response = await httpClient
-    .get<Ingredient>(`/ingredient/${id}`)
+    .get<Ingredient>(requestMapping + `/${id}`)
     .catch((error) => {
       console.error("Erreur récupération de l'ingredient : " + error);
     });
@@ -42,7 +44,7 @@ export const getIngredient = async (id: string) => {
 // Create a new ingredient
 export const createIngredient = async (data: Ingredient) => {
   const response = await httpClient
-    .post<Ingredient>("/ingredient", data)
+    .post<Ingredient>(requestMapping, data)
     .catch((error) => {
       console.error("Erreur création de l'ingredient : " + error);
     });
@@ -50,9 +52,12 @@ export const createIngredient = async (data: Ingredient) => {
 };
 
 // Update an existing ingredient
-export const updateIngredient = async (id: string, data: Partial<Ingredient>) => {
+export const updateIngredient = async (
+  id: string,
+  data: Partial<Ingredient>
+) => {
   const response = await httpClient
-    .put<Ingredient>(`/ingredient/${id}`, data)
+    .put<Ingredient>(requestMapping + `/${id}`, data)
     .catch((error) => {
       console.error("Erreur màj de l'ingredient : " + error);
     });
@@ -62,7 +67,7 @@ export const updateIngredient = async (id: string, data: Partial<Ingredient>) =>
 // Delete a ingredient
 export const deleteIngredient = async (id: string) => {
   const response = await httpClient
-    .delete<void>(`/ingredient/${id}`)
+    .delete<void>(requestMapping + `/${id}`)
     .catch((error) => {
       console.error("Erreur suppression de l'ingredient : " + error);
     });
