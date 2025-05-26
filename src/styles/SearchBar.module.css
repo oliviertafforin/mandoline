@@ -32,8 +32,8 @@
   /* Styles pour le texte dans les résultats */
   .searchResultsDropdownRow {
     font-size: 1rem;
-    color: #333;
-    display: flex;
+    color: #333 !important;
+    display: flex !important;
     align-items: center;
   }
   

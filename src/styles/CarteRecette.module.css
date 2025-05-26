@@ -88,12 +88,12 @@
 }
 
 .boutonLike:hover.recetteNonLikee {
-  background-color: #e26565;
+  background-color:  #d6d1ba;
   transform: scale(1.3);
 }
 .boutonLike:hover.recetteLikee {
-  background-color: #d6d1ba;
   transform: scale(1.3);
+   background-color: #e26565;
 }
 
 .recetteLikee {

@@ -9,8 +9,7 @@ import {
 } from "../services/recette";
 import styles from "./../styles/RecetteDetailsForm.module.css";
 import { useNavigate, useParams } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import { Button, Modal, Form } from "react-bootstrap";
 import ReturnButton from "./ReturnButton";
 import { useAuth } from "./utils/AuthContextType";
 import {
@@ -41,6 +40,9 @@ function RecetteDetailsForm() {
   });
   const [image, setImage] = useState<string>();
   const [nomImage, setNomImage] = useState<string>();
+  const [showModalSuppression, setShowModalSuppression] = useState(false);
+  const handleShowModalSuppression = () => setShowModalSuppression(true);
+  const handleCloseModalSuppression = () => setShowModalSuppression(false);
 
   useEffect(() => {
     if (id) {
@@ -79,6 +81,12 @@ function RecetteDetailsForm() {
     const nouvellesEtapes = [...etapes];
     nouvellesEtapes[index][champ] = valeur;
     setEtapes(nouvellesEtapes);
+  };
+
+  const handleDelete = () => {
+    // Logique de suppression ici
+    console.log("Recette supprimée");
+    setShowModalSuppression(false);
   };
 
   async function sauvegarderRecette(e: React.FormEvent<HTMLFormElement>) {
@@ -148,10 +156,6 @@ function RecetteDetailsForm() {
     }
   };
 
-  // if (!recette) {
-  //   return <div>Chargement...</div>;
-  // }
-
   return (
     <div>
       <ReturnButton label="← Retour" />
@@ -166,6 +170,36 @@ function RecetteDetailsForm() {
           >
             Sauvegarder
           </Button>
+          <Button
+            type="button"
+            variant="danger"
+            className={styles.deleteButton}
+            onClick={handleShowModalSuppression}
+          >
+            Supprimer
+          </Button>
+
+          <Modal
+            show={showModalSuppression}
+            onHide={handleCloseModalSuppression}
+            centered
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Confirmer la suppression</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Êtes-vous sûr de vouloir supprimer cet ingrédient ? Cette action
+              est irréversible.
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseModalSuppression}>
+                Annuler
+              </Button>
+              <Button variant="danger" onClick={handleDelete}>
+                Supprimer
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
 
         <p>
@@ -209,7 +243,9 @@ function RecetteDetailsForm() {
                     className={styles.previewImage}
                   />
                 ) : (
-                  <div className={`${styles.uploaderPlaceholder} ${styles.iconAddPhoto}`}>
+                  <div
+                    className={`${styles.uploaderPlaceholder} ${styles.iconAddPhoto}`}
+                  >
                     Ajouter une photo
                   </div>
                 )}
@@ -329,7 +365,9 @@ function RecetteDetailsForm() {
               <div key={index}>
                 <Form.Group controlId={`etape-titre-${index}`}>
                   <div className={styles.titre}>
-                    <Form.Label className={styles.labels}>Titre de l'étape</Form.Label>
+                    <Form.Label className={styles.labels}>
+                      Titre de l'étape
+                    </Form.Label>
                     <div className={styles.supprimerEtape}>
                       <Button
                         className={styles.boutonSupprimerEtape}
@@ -357,7 +395,9 @@ function RecetteDetailsForm() {
                   className={styles.texteEtape}
                   controlId={`etape-texte-${index}`}
                 >
-                  <Form.Label className={styles.labels}>Texte de l'étape</Form.Label>
+                  <Form.Label className={styles.labels}>
+                    Texte de l'étape
+                  </Form.Label>
                   <Form.Control
                     as="textarea"
                     value={etape.texte}

@@ -6,6 +6,7 @@ export interface Image {
   id?: string;
   libelle : string;
   path?: string;
+  url?: string;
 }
 
 export const getImage = async (id: string) => {

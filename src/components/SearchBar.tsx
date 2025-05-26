@@ -8,10 +8,11 @@ import { recherche, ResultatRecherche } from "../services/recherche";
 import { Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Context } from "./Context";
+import { download } from "../services/image";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
-  resultatsPrecharges : Array<ResultatRecherche>;
+  resultatsPrecharges: Array<ResultatRecherche>;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ resultatsPrecharges }) => {
@@ -37,19 +38,48 @@ const SearchBar: React.FC<SearchBarProps> = ({ resultatsPrecharges }) => {
     const results = resultatsPrecharges.filter((item: ResultatRecherche) =>
       item.nom.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    setResultats(results);
+    if (results) {
+      enrichirResultatsAvecImages(results).then((resultatsAvecImage) => {
+        setResultats(resultatsAvecImage);
+      });
+    } else {
+      setResultats([]);
+    }
   };
 
   const performSearch = (searchQuery: string) => {
     //Recherche directe en base
     recherche(searchQuery).then((results) => {
       if (results) {
-        setResultats(results);
+        enrichirResultatsAvecImages(results).then((resultatsAvecImage) => {
+          setResultats(resultatsAvecImage);
+        });
       } else {
         setResultats([]);
       }
       navigate("resultats");
     });
+  };
+
+  const enrichirResultatsAvecImages = async (
+    resultats: ResultatRecherche[]
+  ) => {
+    const resultatsEnrichis = await Promise.all(
+      resultats.map(async (resultat) => {
+        if (resultat.image.id) {
+          const imageUrl = await download(resultat.image.id);
+          return {
+            ...resultat,
+            image: {
+              ...resultat.image,
+              url: imageUrl,
+            },
+          };
+        }
+        return resultat;
+      })
+    );
+    return resultatsEnrichis;
   };
 
   return (
@@ -74,9 +104,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ resultatsPrecharges }) => {
                 href={`/${result.type}/${result.id}`}
                 className={styles.searchResultsDropdownRow}
               >
-                {result.image.path && (
+                {result.image.url && (
                   <img
-                    src={result.image.path}
+                    src={result.image.url}
                     alt={result.nom}
                     className={styles.searchResultsImage}
                   />

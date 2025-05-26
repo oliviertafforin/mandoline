@@ -6,8 +6,7 @@ import {
 } from "../services/ingredient";
 import styles from "./../styles/IngredientDetailsForm.module.css";
 import { useNavigate, useParams } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import { Button, Modal, Form } from 'react-bootstrap';
 import ReturnButton from "./ReturnButton";
 import {
   IngredientUtilisateur,
@@ -45,6 +44,10 @@ function IngredientDetailsForm() {
     });
   const [image, setImage] = useState<string>();
   const [nomImage, setNomImage] = useState<string>();
+  const [showModalSuppression, setShowModalSuppression] = useState(false);
+  const handleShowModalSuppression = () => setShowModalSuppression(true);
+  const handleCloseModalSuppression = () => setShowModalSuppression(false);
+
   useEffect(() => {
     if (id) {
       getIngredient(id).then((data) => {
@@ -128,6 +131,12 @@ function IngredientDetailsForm() {
     }
   };
 
+   const handleDelete = () => {
+    // Logique de suppression ici
+    console.log('Élément supprimé');
+    setShowModalSuppression(false);
+  };
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -140,10 +149,6 @@ function IngredientDetailsForm() {
       setSelectedFile(file);
     }
   };
-
-  // if (!ingredient || !ingredientUtilisateur) {
-  //   return <div>Chargement...</div>;
-  // }
 
   return (
     <div>
@@ -161,6 +166,31 @@ function IngredientDetailsForm() {
           >
             Sauvegarder
           </Button>
+          <Button
+            type="button"
+            variant="danger"
+            className={styles.deleteButton}
+            onClick={handleShowModalSuppression}
+          >
+            Supprimer
+          </Button>
+
+          <Modal show={showModalSuppression} onHide={handleCloseModalSuppression} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmer la suppression</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Êtes-vous sûr de vouloir supprimer cet ingrédient ? Cette action est irréversible.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModalSuppression}>
+            Annuler
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Supprimer
+          </Button>
+        </Modal.Footer>
+      </Modal>
         </div>
 
         <p>
