@@ -4,16 +4,18 @@ import { httpClient } from "./httpClient";
 // Define the type for an image
 export interface Image {
   id?: string;
-  libelle : string;
+  libelle: string;
   path?: string;
   url?: string;
 }
 
 const requestMapping = "/images";
 
+const imageBlobURLs: Record<string, string> = {};
+
 export const getImage = async (id: string) => {
   const response = await httpClient
-    .get<Image>(requestMapping+`/${id}`)
+    .get<Image>(requestMapping + `/${id}`)
     .catch((error) => {
       console.error("Erreur récupération de l'image : " + error);
     });
@@ -33,7 +35,7 @@ export const createImage = async (data: Image) => {
 // Update an existing image
 export const updateImage = async (id: string, data: Partial<Image>) => {
   const response = await httpClient
-    .put<Image>(requestMapping+`/${id}`, data)
+    .put<Image>(requestMapping + `/${id}`, data)
     .catch((error) => {
       console.error("Erreur màj de l'image : " + error);
     });
@@ -43,7 +45,7 @@ export const updateImage = async (id: string, data: Partial<Image>) => {
 // Delete a image
 export const deleteImage = async (id: string) => {
   const response = await httpClient
-    .delete<void>(requestMapping+`/${id}`)
+    .delete<void>(requestMapping + `/${id}`)
     .catch((error) => {
       console.error("Erreur suppression de l'image : " + error);
     });
@@ -53,15 +55,25 @@ export const deleteImage = async (id: string) => {
 //upload image
 export const uploadImage = async (file: File, id: string) => {
   const formData = new FormData();
-  formData.append('file', file);
-  formData.append('id', id);
+  formData.append("file", file);
+  formData.append("id", id);
 
   try {
-    const response = await httpClient.post<Image>(requestMapping+'/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await httpClient.post<Image>(
+      requestMapping + "/upload",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    // Si on a déjà un blob URL, le révoquer
+    if (imageBlobURLs[id]) {
+      URL.revokeObjectURL(imageBlobURLs[id]);
+    }
+
     return response.data;
   } catch (error) {
     console.error("Erreur lors de l'upload de l'image : ", error);
@@ -71,12 +83,13 @@ export const uploadImage = async (file: File, id: string) => {
 
 //download image
 export const download = async (id: string) => {
-
   try {
-    const response = await httpClient.get(requestMapping+`/${id}/download`, {
-      responseType : 'blob'
+    const response = await httpClient.get(requestMapping + `/${id}/download`, {
+      responseType: "blob",
     });
     const imageUrl = URL.createObjectURL(new Blob([response.data]));
+    // Mémoriser le nouveau blob
+    imageBlobURLs[id] = imageUrl;
     return imageUrl;
   } catch (error) {
     console.error("Erreur lors de l'upload de l'image : ", error);
