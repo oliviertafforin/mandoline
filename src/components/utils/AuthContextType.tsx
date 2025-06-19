@@ -16,6 +16,7 @@ interface AuthContextType {
   id: string | undefined;
   username: string | undefined;
   utilisateur: Utilisateur | undefined;
+  role: string | undefined;
   login: (token: string) => void;
   logout: () => void;
 }
@@ -23,7 +24,7 @@ interface AuthContextType {
 interface MyJwtToken {
   sub: string;
   id: string;
-  // whatever else is in the JWT.
+  role: string;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -31,6 +32,7 @@ export const AuthContext = createContext<AuthContextType>({
   id: undefined,
   username: undefined,
   utilisateur: undefined,
+  role: undefined,
   login: () => {},
   logout: () => {},
 });
@@ -60,12 +62,15 @@ const useAuthState = () => {
   const [id, setId] = useState<string | undefined>(
     getInfoFromJwt(token, "id") || undefined
   );
+  const [role, setRole] = useState<string | undefined>(
+    getInfoFromJwt(token, "role") || undefined
+  );
   const [utilisateur] = useState<Utilisateur | undefined>({
     id: id,
     pseudo: username,
     recettesLikees: [],
     avatar: undefined,
-    role: "",
+    role: role,
   });
 
   useEffect(() => {
@@ -79,6 +84,7 @@ const useAuthState = () => {
     setToken(jwt);
     localStorage.setItem("token", jwt);
     setUsername(getInfoFromJwt(jwt, "sub"));
+    setRole(getInfoFromJwt(jwt, "role"));
     setId(getInfoFromJwt(jwt, "id"));
   };
 
@@ -91,7 +97,7 @@ const useAuthState = () => {
     delete axios.defaults.headers.common["Authorization"];
   };
 
-  return { token, username, id, utilisateur, login, logout };
+  return { token, username, id, utilisateur, role, login, logout };
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {

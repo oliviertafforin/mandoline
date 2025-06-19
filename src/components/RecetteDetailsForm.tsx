@@ -188,7 +188,7 @@ function RecetteDetailsForm() {
               <Modal.Title>Confirmer la suppression</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              Êtes-vous sûr de vouloir supprimer cet ingrédient ? Cette action
+              Êtes-vous sûr de vouloir supprimer cette recette ? Cette action
               est irréversible.
             </Modal.Body>
             <Modal.Footer>
