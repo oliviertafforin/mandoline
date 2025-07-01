@@ -81,6 +81,7 @@ function IngredientDetailsForm() {
   }, []);
 
   async function sauvegarderIngredient(e: React.FormEvent<HTMLFormElement>) {
+    console.log("Sauvegarde du formulaire");
     e.preventDefault();
     if (ingredient && id && auth.id) {
       // Créez un objet Image

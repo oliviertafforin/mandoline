@@ -36,7 +36,9 @@ root.render(
             element={<IngredientDetailsForm />}
           />
           <Route path="ingredients/:id" element={<IngredientDetails />} />
+          <Route path="ingredients/:id/edit" element={<IngredientDetailsForm />} />
           <Route path="ingredients" element={<ListeCarteIngredient />} />
+          <Route path="add-ingredient" element={<IngredientDetailsForm />} />
           <Route path="recettes/:id/edit" element={<RecetteDetailsForm />} />
           <Route path="add-recette" element={<RecetteDetailsForm />} />
           <Route path="recettes/:id" element={<RecetteDetails />} />

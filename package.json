@@ -25,7 +25,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "WATCHPACK_POLLING=true react-scripts start",
     "out-build": "react-scripts build --output-path ../mandoline/src/main/resources/static",
     "build": "react-scripts build",
     "copy": "copyfiles -u 1 build/**/* ../mandoline/src/main/resources/static",
