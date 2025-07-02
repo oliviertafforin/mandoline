@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
+  createIngredient,
+  deleteIngredient,
   getIngredient,
   Ingredient,
   updateIngredient,
 } from "../services/ingredient";
 import styles from "./../styles/IngredientDetailsForm.module.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, Modal, Form } from 'react-bootstrap';
+import { Button, Modal, Form } from "react-bootstrap";
 import ReturnButton from "./ReturnButton";
 import {
   IngredientUtilisateur,
@@ -83,7 +85,7 @@ function IngredientDetailsForm() {
   async function sauvegarderIngredient(e: React.FormEvent<HTMLFormElement>) {
     console.log("Sauvegarde du formulaire");
     e.preventDefault();
-    if (ingredient && id && auth.id) {
+    if (ingredient && auth.id) {
       // Créez un objet Image
       let imagePrincipale: Image | undefined = {
         libelle: ingredient.nom,
@@ -112,12 +114,18 @@ function IngredientDetailsForm() {
       const updatedIngredientUtilisateur = { ...ingredientUtilisateur };
 
       try {
-        await updateIngredient(id, updatedIngredient);
-        await updateIngredientUtilisateur(
-          id,
-          auth.id,
-          updatedIngredientUtilisateur
-        );
+        if (id) {
+          await updateIngredient(id, updatedIngredient);
+
+          await updateIngredientUtilisateur(
+            id,
+            auth.id,
+            updatedIngredientUtilisateur
+          );
+        } else {
+          await createIngredient(updatedIngredient);
+        }
+
         console.log("Ingrédient mis à jour avec succès");
         navigate("/ingredients");
       } catch (error) {
@@ -132,10 +140,13 @@ function IngredientDetailsForm() {
     }
   };
 
-   const handleDelete = () => {
-    // Logique de suppression ici
-    console.log('Élément supprimé');
+  const handleDelete = async () => {
+    if (id) {
+      await deleteIngredient(id);
+      console.log("Ingrédient supprimé");
+    }
     setShowModalSuppression(false);
+    navigate("/ingredients");
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -176,22 +187,27 @@ function IngredientDetailsForm() {
             Supprimer
           </Button>
 
-          <Modal show={showModalSuppression} onHide={handleCloseModalSuppression} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirmer la suppression</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Êtes-vous sûr de vouloir supprimer cet ingrédient ? Cette action est irréversible.
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModalSuppression}>
-            Annuler
-          </Button>
-          <Button variant="danger" onClick={handleDelete}>
-            Supprimer
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          <Modal
+            show={showModalSuppression}
+            onHide={handleCloseModalSuppression}
+            centered
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Confirmer la suppression</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Êtes-vous sûr de vouloir supprimer cet ingrédient ? Cette action
+              est irréversible.
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseModalSuppression}>
+                Annuler
+              </Button>
+              <Button variant="danger" onClick={handleDelete}>
+                Supprimer
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
 
         <p>

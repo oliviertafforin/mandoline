@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   Categorie,
   createRecette,
+  deleteRecette,
   Etape,
   getRecette,
   Recette,
@@ -83,10 +84,13 @@ function RecetteDetailsForm() {
     setEtapes(nouvellesEtapes);
   };
 
-  const handleDelete = () => {
-    // Logique de suppression ici
-    console.log("Recette supprimée");
+  const handleDelete = async () => {
+    if (id) {
+      await deleteRecette(id);
+      console.log("Recette supprimée");
+    }
     setShowModalSuppression(false);
+    navigate("/recettes");
   };
 
   async function sauvegarderRecette(e: React.FormEvent<HTMLFormElement>) {

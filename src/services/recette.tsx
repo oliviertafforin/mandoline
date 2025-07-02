@@ -94,7 +94,7 @@ export const updateRecette = async (id: string, data: Partial<Recette>) => {
 };
 
 // Delete a recette
-export const deleteRecette = async (id: number) => {
+export const deleteRecette = async (id: string) => {
   const response = await httpClient
     .delete<void>(requestMapping+`/${id}`)
     .catch((error) => {
